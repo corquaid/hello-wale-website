@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Self-hosted (Fontshare-licensed) variable font — covers weights 300–900
+   in one file, matching the Figma design's "Satoshi Variable" instances
+   (Fontshare's hosted CSS API only offers static cuts and is missing 600). */
+@font-face {
+	font-family: "Satoshi";
+	src:
+		url("/fonts/satoshi-variable.woff2") format("woff2"),
+		url("/fonts/satoshi-variable.woff") format("woff");
+	font-weight: 300 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@theme {
+	/* Brand — sampled from the HelloWale Figma marketplace design */
+	--color-wale-950: #14040e; /* darkest section background (ValueProps) */
+	--color-wale-900: #200615; /* hero background */
+	--color-wale-800: #230517; /* hero gradient shadow */
+	--color-wale-700: #511a3b; /* primary brand accent — buttons, active pills, cards */
+	--color-wale-gold: #f8cba6; /* secondary accent — badges, highlighted text/stats */
+	--color-wale-yellow: #ffd93d; /* tertiary accent — ratings, small highlight dots */
+	--color-wale-peach: #ffdbb3; /* Landing Page accent — highlighted headline word, ghost button border */
+	--color-wale-cream: #ffe5cc; /* Landing Page accent — solid button background on dark surfaces */
+	--color-wale-sand: #ffeddb; /* Landing Page accent — light pillar card background */
+	--color-wale-50: #fffbf8; /* Landing Page section background — warm off-white */
+
+	--font-display: "Satoshi", sans-serif; /* headings, large stat numbers */
+	--font-sans: "Inter", sans-serif; /* body copy, nav, UI labels */
+}

@@ -1,0 +1,186 @@
+---
+import { Image } from "astro:assets";
+import scienceFocus from "../assets/images/science-focus.jpg";
+import scienceIdeas from "../assets/images/science-ideas.jpg";
+import scienceEnergy from "../assets/images/science-energy.jpg";
+
+const cards = [
+	{
+		title: "Where focus deepens",
+		description:
+			"Same desk, same view, same thinking — the brain filters familiar surroundings, including the ideas that come from them.",
+		image: scienceFocus,
+		alt: "A person wearing headphones focused on a laptop by a window",
+		wide: false,
+	},
+	{
+		title: "Where ideas connect",
+		description:
+			"Why the best ideas come on holiday and rarely back at the desk. Novel environments activate the brain's default mode — the source of insight.",
+		image: scienceIdeas,
+		alt: "Two colleagues high-fiving in a bright office",
+		wide: false,
+	},
+	{
+		title: "Where energy returns",
+		description:
+			"Why a week away often beats a month at the desk. Nature and new spaces reset cognitive capacity faster than time off alone.",
+		image: scienceEnergy,
+		alt: "A couple collaborating together, one wearing glasses, in a bright warm space",
+		wide: true,
+	},
+] as const;
+---
+
+<section class="bg-white px-6 py-20 sm:px-10 lg:px-20 lg:py-30">
+	<div class="mx-auto flex max-w-6xl flex-col items-center gap-16">
+		<div class="flex flex-col items-center gap-4 text-center">
+			<p
+				class="bg-[linear-gradient(174deg,#fadec2_1.5%,#d19161_34%,#3d142b_100%)] bg-clip-text font-display text-[11px] tracking-[0.33px] text-transparent uppercase"
+			>
+				The science of change
+			</p>
+			<p class="max-w-3xl font-display text-4xl leading-tight font-bold tracking-[-1.12px] text-wale-700 sm:text-5xl lg:text-[56px] lg:leading-[64px]">
+				Where you work
+				<br />
+				changes how you think.
+			</p>
+			<p class="max-w-2xl font-display text-[17px] leading-[28px] text-[#5f5f5f]">
+				It's not romance — it's neuroscience. Environment is one of the strongest predictors
+				of creative output, focus, and recovery. And it's the easiest thing to change.
+			</p>
+		</div>
+
+		<div class="w-full" data-science-slider>
+			<div
+				class="scrollbar-none -mr-6 flex w-full cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto pb-4 select-none active:cursor-grabbing sm:-mr-10 lg:mr-0 lg:grid lg:cursor-auto lg:grid-cols-2 lg:snap-none lg:overflow-visible lg:pb-0 lg:active:cursor-auto"
+				data-science-track
+			>
+				{
+					cards.map((card) => (
+						<div
+							class:list={[
+								"relative isolate h-80 w-[85%] shrink-0 snap-center overflow-hidden rounded-4xl sm:h-96 sm:w-[60%] lg:h-139.5 lg:w-auto lg:shrink",
+								card.wide && "lg:col-span-2 lg:h-116.25",
+							]}
+							data-science-slide
+						>
+							<Image
+								src={card.image}
+								alt={card.alt}
+								class="absolute inset-0 -z-20 h-full w-full object-cover"
+								widths={card.wide ? [640, 1024, 1600] : [480, 768, 1100]}
+								sizes={card.wide ? "100vw" : "(min-width: 1024px) 50vw, 85vw"}
+							/>
+							<div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+							<div
+								class:list={[
+									"absolute bottom-0 left-0 flex flex-col items-start gap-3 p-8",
+									card.wide && "lg:p-20",
+								]}
+							>
+								<p class="font-display text-2xl font-medium tracking-[-0.128px] text-white sm:text-[32px]">
+									{card.title}
+								</p>
+								<p
+									class:list={[
+										"font-display text-base tracking-[-0.064px] text-white",
+										card.wide ? "max-w-md" : "max-w-sm",
+									]}
+								>
+									{card.description}
+								</p>
+							</div>
+						</div>
+					))
+				}
+			</div>
+
+			<div class="mt-2 flex justify-center gap-2 lg:hidden" data-science-dots>
+				{
+					cards.map((_, index) => (
+						<button
+							type="button"
+							aria-label={`Go to slide ${index + 1}`}
+							data-science-dot={index}
+							class="h-2 w-2 rounded-full bg-wale-700/25 transition-all data-[active=true]:w-6 data-[active=true]:bg-wale-700"
+						/>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>("[data-science-slider]").forEach((slider) => {
+		const track = slider.querySelector<HTMLElement>("[data-science-track]");
+		const slides = Array.from(slider.querySelectorAll<HTMLElement>("[data-science-slide]"));
+		const dots = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-science-dot]"));
+		if (!track || slides.length === 0 || dots.length === 0) return;
+
+		const setActive = (index: number) => {
+			dots.forEach((dot, i) => dot.setAttribute("data-active", String(i === index)));
+		};
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const index = slides.indexOf(entry.target as HTMLElement);
+						if (index !== -1) setActive(index);
+					}
+				});
+			},
+			{ root: track, threshold: 0.6 },
+		);
+		slides.forEach((slide) => observer.observe(slide));
+
+		dots.forEach((dot, index) => {
+			dot.addEventListener("click", () => {
+				slides[index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+			});
+		});
+
+		setActive(0);
+
+		// Pointer-drag to scroll (mouse/trackpad users; touch already scrolls natively).
+		// Tracked via window (not setPointerCapture) — capturing the pointer on track
+		// retargets the ensuing click to the track itself, breaking nested links/buttons.
+		let isDragging = false;
+		let startX = 0;
+		let startScrollLeft = 0;
+		let pendingDx: number | null = null;
+
+		const applyScroll = () => {
+			if (pendingDx === null) return;
+			track.scrollLeft = startScrollLeft - pendingDx;
+			pendingDx = null;
+		};
+
+		track.addEventListener("pointerdown", (e) => {
+			if (e.pointerType === "touch") return;
+			isDragging = true;
+			startX = e.clientX;
+			startScrollLeft = track.scrollLeft;
+			// CSS scroll-snap fights manual scrollLeft updates mid-drag, causing jitter —
+			// suspend it while dragging and let it re-settle naturally on release.
+			track.style.scrollSnapType = "none";
+		});
+
+		window.addEventListener("pointermove", (e) => {
+			if (!isDragging) return;
+			const dx = e.clientX - startX;
+			pendingDx = dx;
+			requestAnimationFrame(applyScroll);
+		});
+
+		const endDrag = () => {
+			if (!isDragging) return;
+			isDragging = false;
+			track.style.scrollSnapType = "";
+		};
+		window.addEventListener("pointerup", endDrag);
+		window.addEventListener("pointercancel", endDrag);
+	});
+</script>

@@ -1,0 +1,167 @@
+---
+import logoLight from "../assets/images/logo-mark-light.svg";
+import logoDark from "../assets/images/logo-mark-dark.svg";
+
+interface Props {
+	variant?: "solid" | "transparent";
+}
+
+const { variant = "solid" } = Astro.props;
+const isTransparent = variant === "transparent";
+
+const leftLinks = [
+	{ href: "#", label: "For Companies" },
+	{ href: "#", label: "For Hosts" },
+];
+
+const rightLinks = [
+	{ href: "#", label: "Hello Wale Story" },
+	{ href: "/blog", label: "Blog" },
+	{ href: "/faq", label: "FAQ" },
+];
+
+const linkClass = isTransparent
+	? "font-display text-[13px] font-medium text-white"
+	: "font-display text-[13px] font-medium text-gray-700 hover:text-wale-700";
+
+const ctaClass = isTransparent
+	? "rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-cream px-6 py-3.5 font-display text-[13px] font-medium tracking-[0.13px] text-wale-700"
+	: "rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 font-display text-[13px] font-medium tracking-[0.13px] text-white hover:bg-wale-800";
+---
+
+<header
+	class={
+		isTransparent
+			? "relative z-10 py-6 sm:px-20"
+			: "relative z-10 border-b border-gray-200 bg-white px-6 py-4 sm:px-20"
+	}
+>
+	<div class="mx-auto hidden max-w-7xl items-center justify-between sm:flex">
+		<nav class="flex flex-1 items-center gap-8">
+			{leftLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
+		</nav>
+
+		<a href="/" class="flex shrink-0 items-center">
+			<img
+				src={isTransparent ? logoLight.src : logoDark.src}
+				alt="hellowale"
+				class="aspect-298/34 h-8.5 w-auto max-w-none"
+			/>
+		</a>
+
+		<div class="flex flex-1 items-center justify-end gap-6">
+			{rightLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
+			<a href="/contact" class={ctaClass}>Partner with us</a>
+		</div>
+	</div>
+
+	<div class="relative mx-auto flex max-w-7xl items-center sm:hidden">
+		<button
+			type="button"
+			data-nav-toggle
+			aria-expanded="false"
+			aria-controls="mobile-nav-drawer"
+			aria-label="Open menu"
+			class="relative z-10"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				class={isTransparent ? "h-6 w-6 text-white" : "h-6 w-6 text-gray-700"}
+			>
+				<path d="M4 6h16M4 12h16M4 18h16" />
+			</svg>
+		</button>
+
+		<a href="/" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+			<img
+				src={isTransparent ? logoLight.src : logoDark.src}
+				alt="hellowale"
+				class="aspect-298/34 h-6 w-auto max-w-none"
+			/>
+		</a>
+	</div>
+</header>
+
+<div
+	id="mobile-nav-drawer"
+	class="pointer-events-none fixed inset-0 z-50 sm:hidden"
+	data-nav-drawer
+>
+	<div
+		data-nav-backdrop
+		class="absolute inset-0 bg-black/50 opacity-0 pointer-events-none transition-opacity duration-300"
+	>
+	</div>
+	<div
+		data-nav-panel
+		class="pointer-events-auto absolute inset-y-0 left-0 w-96 max-w-[90vw] -translate-x-full bg-white p-6 shadow-xl transition-transform duration-300"
+	>
+		<div class="relative flex items-center justify-center">
+			<img src={logoDark.src} alt="hellowale" class="aspect-298/34 h-6 w-auto max-w-none" />
+			<button type="button" data-nav-close aria-label="Close menu" class="absolute right-0">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					class="h-6 w-6 text-gray-700"
+				>
+					<path d="M6 6l12 12M18 6L6 18" />
+				</svg>
+			</button>
+		</div>
+
+		<nav class="mt-8 flex flex-col gap-5">
+			{
+				[...leftLinks, ...rightLinks].map((link) => (
+					<a
+						href={link.href}
+						class="font-display text-[15px] font-medium text-gray-700 hover:text-wale-700"
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</nav>
+
+		<a
+			href="/contact"
+			class="mt-8 block rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 text-center font-display text-[13px] font-medium tracking-[0.13px] text-white"
+		>
+			Partner with us
+		</a>
+	</div>
+</div>
+
+<script>
+	function closeDrawer() {
+		const backdrop = document.querySelector("[data-nav-backdrop]");
+		const panel = document.querySelector("[data-nav-panel]");
+		const toggle = document.querySelector("[data-nav-toggle]");
+		backdrop?.classList.add("opacity-0", "pointer-events-none");
+		panel?.classList.add("-translate-x-full");
+		toggle?.setAttribute("aria-expanded", "false");
+		document.body.classList.remove("overflow-hidden");
+	}
+
+	function openDrawer() {
+		const backdrop = document.querySelector("[data-nav-backdrop]");
+		const panel = document.querySelector("[data-nav-panel]");
+		const toggle = document.querySelector("[data-nav-toggle]");
+		backdrop?.classList.remove("opacity-0", "pointer-events-none");
+		panel?.classList.remove("-translate-x-full");
+		toggle?.setAttribute("aria-expanded", "true");
+		document.body.classList.add("overflow-hidden");
+	}
+
+	document.querySelector("[data-nav-toggle]")?.addEventListener("click", openDrawer);
+	document.querySelector("[data-nav-close]")?.addEventListener("click", closeDrawer);
+	document.querySelector("[data-nav-backdrop]")?.addEventListener("click", closeDrawer);
+</script>

@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const features = [
+	{
+		title: "Static-first rendering",
+		description:
+			"Pages are pre-rendered to plain HTML at build time, so there's no server round trip on every request.",
+	},
+	{
+		title: "React islands",
+		description:
+			"Interactive components hydrate independently, so the rest of the page stays JS-free.",
+	},
+	{
+		title: "Markdown & MDX content",
+		description:
+			"Write blog posts and long-form content in Markdown with type-safe frontmatter via Content Collections.",
+	},
+	{
+		title: "Built-in image optimization",
+		description: "Astro's asset pipeline handles resizing, formats, and lazy loading for you.",
+	},
+	{
+		title: "View transitions",
+		description: "Smooth, app-like page navigation without reaching for a client-side router.",
+	},
+	{
+		title: "Deploy anywhere",
+		description:
+			"Ship as static files to Cloudflare Pages, Netlify, Vercel, or GitHub Pages — no vendor lock-in.",
+	},
+];
+---
+
+<Layout title="Features" description="What you get out of the box.">
+	<section class="mx-auto max-w-6xl px-6 py-16">
+		<h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Features</h1>
+		<p class="mt-3 max-w-2xl text-slate-600">
+			Everything you need for a fast, content-driven marketing site.
+		</p>
+
+		<div class="mt-12 grid gap-6 sm:grid-cols-2">
+			{
+				features.map((feature) => (
+					<div class="rounded-lg border border-slate-200 p-6">
+						<h2 class="font-semibold text-slate-900">{feature.title}</h2>
+						<p class="mt-2 text-sm text-slate-600">{feature.description}</p>
+					</div>
+				))
+			}
+		</div>
+	</section>
+</Layout>

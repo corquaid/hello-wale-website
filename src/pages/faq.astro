@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const faqs = [
+	{
+		question: "What is this site built with?",
+		answer: "Astro, with React islands for interactive components like the contact form.",
+	},
+	{
+		question: "Do I need an account to use this?",
+		answer: "No account is required to browse the site or read the blog.",
+	},
+	{
+		question: "How do I get in touch?",
+		answer: "Head over to the Contact page and fill out the form — we typically reply within a day.",
+	},
+	{
+		question: "Is there a free plan?",
+		answer: "Yes, reach out via Contact and we'll walk you through the available options.",
+	},
+];
+---
+
+<Layout title="FAQ" description="Frequently asked questions.">
+	<section class="mx-auto max-w-3xl px-6 py-16">
+		<h1 class="text-3xl font-bold text-slate-900 sm:text-4xl">Frequently asked questions</h1>
+
+		<div class="mt-10 divide-y divide-slate-200 border-t border-b border-slate-200">
+			{
+				faqs.map((faq) => (
+					<details class="group py-4">
+						<summary class="cursor-pointer list-none font-medium text-slate-900 marker:content-none">
+							<span class="flex items-center justify-between">
+								{faq.question}
+								<span class="ml-4 text-slate-400 group-open:rotate-45">+</span>
+							</span>
+						</summary>
+						<p class="mt-2 text-sm text-slate-600">{faq.answer}</p>
+					</details>
+				))
+			}
+		</div>
+	</section>
+</Layout>

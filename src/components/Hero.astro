@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import heroBg from "../assets/images/hero-bg.jpg";
+import officeBubble from "../assets/images/office-bubble.svg";
+import Nav from "./Nav.astro";
+---
+
+<section
+	class="relative flex min-h-[85vh] flex-col overflow-hidden px-6 pb-16 sm:px-10 sm:pb-24 lg:min-h-[85vh] lg:px-20 lg:pb-32"
+	style="background-image: linear-gradient(155deg, #fadec2 1.5%, #d19161 34%, #3d142b 100%);"
+>
+	<div class="absolute inset-0" aria-hidden="true">
+		<Image
+			src={heroBg}
+			alt=""
+			class="h-full w-full object-cover"
+			widths={[640, 1024, 1512, 2048]}
+			sizes="100vw"
+			loading="eager"
+			fetchpriority="high"
+		/>
+		<div class="absolute inset-0 bg-black/25"></div>
+	</div>
+
+	<div class="relative w-full">
+		<Nav variant="transparent" />
+	</div>
+
+	<div class="relative flex flex-1 flex-col items-center justify-center gap-8 text-center">
+		<h1 class="relative isolate font-display text-5xl font-bold leading-[1.02] text-white sm:text-6xl lg:text-7xl">
+			Your <span class="relative isolate -z-10">
+				<img
+					src={officeBubble.src}
+					alt=""
+					aria-hidden="true"
+					class="absolute left-1/2 top-1/2 -z-10 h-[1.8em] w-[3.5em] max-w-none -translate-x-1/2 -translate-y-2/5"
+				/>
+				<span class="relative text-wale-peach">office,</span>
+			</span> reimagined.
+		</h1>
+
+		<p class="max-w-xl font-display text-lg leading-[1.7] text-white">
+			We're building the platform for remote work stays. Not just a place to sleep — a place
+			where things actually happen. Be one of the first.
+		</p>
+
+		<div class="flex w-full max-w-md flex-col gap-2 sm:flex-row">
+			<a
+				href="/contact"
+				class="flex-1 rounded-2xl border border-wale-peach bg-wale-peach/16 px-6 py-3.5 text-center font-display text-sm font-medium text-white"
+			>
+				Partner with us
+			</a>
+			<a
+				href="/contact"
+				class="flex-1 rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl bg-wale-cream px-6 py-3.5 text-center font-display text-sm font-medium text-wale-700"
+			>
+				Start Listing — It's Free
+			</a>
+		</div>
+	</div>
+</section>

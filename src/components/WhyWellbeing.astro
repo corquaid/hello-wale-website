@@ -1,0 +1,153 @@
+---
+const stats = [
+	{
+		value: "77%",
+		description: "of employees experience burnout at their current job",
+		source: "Deloitte",
+	},
+	{
+		value: "+13%",
+		description: "productivity gain in teams with strong wellbeing programmes",
+		source: "Oxford University",
+	},
+	{
+		value: "3.3×",
+		description: "more likely to feel engaged when given workation flexibility",
+		source: "Gallup",
+	},
+];
+---
+
+<section
+	class="px-6 py-20 sm:px-10 lg:px-20 lg:py-24"
+	style="background-image: linear-gradient(135deg, #914d61 0%, #380121 100%);"
+>
+	<div class="mx-auto flex max-w-6xl flex-col items-center gap-14 text-center">
+		<div class="flex flex-col items-center gap-2">
+			<p class="font-display text-[11px] tracking-[0.33px] text-wale-peach uppercase">
+				Why wellbeing matters
+			</p>
+			<h2 class="max-w-3xl font-display text-4xl font-bold tracking-[-1.12px] text-white sm:text-5xl lg:text-[56px] lg:leading-[64px]">
+				The numbers behind better work.
+			</h2>
+			<p class="font-display text-[17px] text-white/65">
+				Wellbeing makes the difference between teams that ship and teams that burn out.
+			</p>
+		</div>
+
+		<div class="w-full" data-stat-slider>
+			<div
+				class="scrollbar-none -mr-6 flex w-full cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto pb-4 select-none active:cursor-grabbing sm:-mr-10 lg:mr-0 lg:cursor-auto lg:snap-none lg:justify-center lg:overflow-visible lg:pb-0 lg:active:cursor-auto"
+				data-stat-track
+			>
+				{
+					stats.map((stat) => (
+						<div
+							class="w-[85%] shrink-0 snap-center rounded-[20px] border border-white/8 bg-white/6 p-10 text-left sm:w-[60%] lg:w-106"
+							data-stat-slide
+						>
+							<div class="flex flex-col items-start gap-5">
+								<p class="font-display text-6xl font-bold tracking-[-2.4px] text-white sm:text-7xl lg:text-[80px]">
+									{stat.value}
+								</p>
+								<p class="font-display text-base text-white/70">{stat.description}</p>
+								<div class="flex items-center gap-2">
+									<div class="h-px w-5 bg-white/40" />
+									<p class="font-display text-[11px] tracking-[0.11px] text-white/40">
+										Source: {stat.source}
+									</p>
+								</div>
+							</div>
+						</div>
+					))
+				}
+			</div>
+
+			<div class="mt-2 flex justify-center gap-2 lg:hidden" data-stat-dots>
+				{
+					stats.map((_, index) => (
+						<button
+							type="button"
+							aria-label={`Go to slide ${index + 1}`}
+							data-stat-dot={index}
+							class="h-2 w-2 rounded-full bg-white/25 transition-all data-[active=true]:w-6 data-[active=true]:bg-white"
+						/>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>("[data-stat-slider]").forEach((slider) => {
+		const track = slider.querySelector<HTMLElement>("[data-stat-track]");
+		const slides = Array.from(slider.querySelectorAll<HTMLElement>("[data-stat-slide]"));
+		const dots = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-stat-dot]"));
+		if (!track || slides.length === 0 || dots.length === 0) return;
+
+		const setActive = (index: number) => {
+			dots.forEach((dot, i) => dot.setAttribute("data-active", String(i === index)));
+		};
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						const index = slides.indexOf(entry.target as HTMLElement);
+						if (index !== -1) setActive(index);
+					}
+				});
+			},
+			{ root: track, threshold: 0.6 },
+		);
+		slides.forEach((slide) => observer.observe(slide));
+
+		dots.forEach((dot, index) => {
+			dot.addEventListener("click", () => {
+				slides[index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+			});
+		});
+
+		setActive(0);
+
+		// Pointer-drag to scroll (mouse/trackpad users; touch already scrolls natively).
+		// Tracked via window (not setPointerCapture) — capturing the pointer on track
+		// retargets the ensuing click to the track itself, breaking nested links/buttons.
+		let isDragging = false;
+		let startX = 0;
+		let startScrollLeft = 0;
+		let pendingDx: number | null = null;
+
+		const applyScroll = () => {
+			if (pendingDx === null) return;
+			track.scrollLeft = startScrollLeft - pendingDx;
+			pendingDx = null;
+		};
+
+		track.addEventListener("pointerdown", (e) => {
+			if (e.pointerType === "touch") return;
+			isDragging = true;
+			startX = e.clientX;
+			startScrollLeft = track.scrollLeft;
+			// CSS scroll-snap fights manual scrollLeft updates mid-drag, causing jitter —
+			// suspend it while dragging and let it re-settle naturally on release.
+			track.style.scrollSnapType = "none";
+		});
+
+		window.addEventListener("pointermove", (e) => {
+			if (!isDragging) return;
+			const dx = e.clientX - startX;
+			pendingDx = dx;
+			requestAnimationFrame(applyScroll);
+		});
+
+		const endDrag = () => {
+			if (!isDragging) return;
+			isDragging = false;
+			track.style.scrollSnapType = "";
+		};
+		window.addEventListener("pointerup", endDrag);
+		window.addEventListener("pointercancel", endDrag);
+	});
+</script>

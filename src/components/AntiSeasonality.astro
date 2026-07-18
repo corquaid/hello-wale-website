@@ -1,0 +1,94 @@
+---
+const months = [
+	{ label: "J", height: 24, peak: false },
+	{ label: "F", height: 32, peak: false },
+	{ label: "M", height: 40, peak: false },
+	{ label: "A", height: 56, peak: false },
+	{ label: "M", height: 96, peak: true },
+	{ label: "J", height: 120, peak: true },
+	{ label: "J", height: 120, peak: true },
+	{ label: "A", height: 104, peak: true },
+	{ label: "S", height: 64, peak: false },
+	{ label: "O", height: 40, peak: false },
+	{ label: "N", height: 28, peak: false },
+	{ label: "D", height: 24, peak: false },
+] as const;
+---
+
+<section class="bg-white px-6 py-20 sm:px-10 lg:px-20 lg:py-30">
+	<div class="mx-auto flex max-w-5xl flex-col items-center gap-16 lg:flex-row lg:items-center lg:justify-center lg:gap-20">
+		<div class="contents lg:flex lg:w-130 lg:flex-col lg:items-start lg:gap-6">
+			<p
+				class="order-1 bg-[linear-gradient(175deg,#fadec2_1.5%,#d19161_34%,#3d142b_100%)] bg-clip-text font-display text-[11px] tracking-[0.33px] text-transparent uppercase lg:order-0"
+			>
+				The problem with tourism
+			</p>
+
+			<div class="order-3 flex flex-col items-start gap-6 lg:order-0 lg:contents">
+				<p class="font-display text-4xl leading-tight font-bold tracking-[-1.12px] text-[#131313] sm:text-5xl lg:text-[56px] lg:leading-[64px]">
+					Tourism is seasonal.
+					<br />
+					Work isn't.
+				</p>
+				<p class="max-w-lg font-display text-[17px] leading-[28px] text-[#5f5f5f]">
+					Hosts see 80% of bookings in just 4 months. The other 8? Empty calendars. HelloWale
+					fills the gap with companies sending teams on workation year-round.
+				</p>
+				<a
+					href="/contact"
+					class="rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 font-display text-sm font-medium tracking-[0.14px] text-white"
+				>
+					List your property
+				</a>
+			</div>
+		</div>
+
+		<div
+			class="order-2 flex w-full flex-col items-center gap-8 rounded-tl-4xl rounded-tr-4xl rounded-bl-4xl p-8 sm:p-12 lg:order-0 lg:w-130"
+			style="background-image: linear-gradient(to top, #914d61, #380121);"
+		>
+			<div class="flex w-full flex-col items-start gap-2">
+				<p class="font-display text-7xl font-bold tracking-[-5.12px] text-white sm:text-8xl lg:text-[128px]">
+					80%
+				</p>
+				<p class="font-display text-[15px] leading-[22px] text-white/55">
+					of bookings happen in just 4 months of the year.
+				</p>
+			</div>
+
+			<div class="h-px w-full bg-white/10"></div>
+
+			<p class="w-full font-display text-[11px] font-semibold tracking-[0.22px] text-white/45 uppercase">
+				Bookings by month (typical Airbnb host)
+			</p>
+
+			<div class="flex w-full items-end justify-between gap-1">
+				{
+					months.map((month) => (
+						<div class="flex flex-col items-center justify-end gap-1.5">
+							<div
+								class:list={[
+									"w-5 rounded sm:w-8",
+									month.peak ? "bg-wale-peach" : "bg-white/20",
+								]}
+								style={`height: ${month.height * 0.75}px`}
+							/>
+							<p class="font-display text-[10px] text-white/40">{month.label}</p>
+						</div>
+					))
+				}
+			</div>
+
+			<div class="flex flex-wrap items-center gap-4">
+				<div class="flex items-center gap-2">
+					<div class="size-2.5 rounded-sm bg-wale-peach"></div>
+					<p class="font-display text-[11px] text-white/60">Peak season (May–Aug)</p>
+				</div>
+				<div class="flex items-center gap-2">
+					<div class="size-2.5 rounded-sm bg-white/20"></div>
+					<p class="font-display text-[11px] text-white/60">Off-season — empty calendar</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

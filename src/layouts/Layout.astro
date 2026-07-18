@@ -1,0 +1,41 @@
+---
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+	title: string;
+	description?: string;
+	showNav?: boolean;
+}
+
+const {
+	title,
+	description = "HelloWale — the platform for remote work stays.",
+	showNav = true,
+} = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<title>{title} · HelloWale</title>
+	</head>
+	<body class="flex min-h-screen flex-col bg-white text-slate-900">
+		{showNav && <Nav />}
+		<main class="flex-1">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
