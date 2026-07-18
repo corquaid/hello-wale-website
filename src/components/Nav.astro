@@ -8,6 +8,7 @@ interface Props {
 
 const { variant = "solid" } = Astro.props;
 const isTransparent = variant === "transparent";
+const base = import.meta.env.BASE_URL;
 
 const leftLinks = [
 	{ href: "#", label: "For Companies" },
@@ -16,8 +17,8 @@ const leftLinks = [
 
 const rightLinks = [
 	{ href: "#", label: "Hello Wale Story" },
-	{ href: "/blog", label: "Blog" },
-	{ href: "/faq", label: "FAQ" },
+	{ href: `${base}blog`, label: "Blog" },
+	{ href: `${base}faq`, label: "FAQ" },
 ];
 
 const linkClass = isTransparent
@@ -41,7 +42,7 @@ const ctaClass = isTransparent
 			{leftLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
 		</nav>
 
-		<a href="/" class="flex shrink-0 items-center">
+		<a href={base} class="flex shrink-0 items-center">
 			<img
 				src={isTransparent ? logoLight.src : logoDark.src}
 				alt="hellowale"
@@ -51,7 +52,7 @@ const ctaClass = isTransparent
 
 		<div class="flex flex-1 items-center justify-end gap-6">
 			{rightLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
-			<a href="/contact" class={ctaClass}>Partner with us</a>
+			<a href={`${base}contact`} class={ctaClass}>Partner with us</a>
 		</div>
 	</div>
 
@@ -77,7 +78,7 @@ const ctaClass = isTransparent
 			</svg>
 		</button>
 
-		<a href="/" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+		<a href={base} class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
 			<img
 				src={isTransparent ? logoLight.src : logoDark.src}
 				alt="hellowale"
@@ -132,7 +133,7 @@ const ctaClass = isTransparent
 		</nav>
 
 		<a
-			href="/contact"
+			href={`${base}contact`}
 			class="mt-8 block rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 text-center font-display text-[13px] font-medium tracking-[0.13px] text-white"
 		>
 			Partner with us
