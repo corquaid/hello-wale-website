@@ -51,10 +51,10 @@ const cards = [
 			</p>
 		</div>
 
-		<div class="w-full" data-science-slider>
+		<div class="w-full" data-slider>
 			<div
 				class="scrollbar-none -mr-6 flex w-full cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto pb-4 select-none active:cursor-grabbing sm:-mr-10 lg:mr-0 lg:grid lg:cursor-auto lg:grid-cols-2 lg:snap-none lg:overflow-visible lg:pb-0 lg:active:cursor-auto"
-				data-science-track
+				data-track
 			>
 				{
 					cards.map((card) => (
@@ -63,7 +63,7 @@ const cards = [
 								"relative isolate h-80 w-[85%] shrink-0 snap-center overflow-hidden rounded-4xl sm:h-96 sm:w-[60%] lg:h-139.5 lg:w-auto lg:shrink",
 								card.wide && "lg:col-span-2 lg:h-116.25",
 							]}
-							data-science-slide
+							data-slide
 						>
 							<Image
 								src={card.image}
@@ -96,13 +96,13 @@ const cards = [
 				}
 			</div>
 
-			<div class="mt-2 flex justify-center gap-2 lg:hidden" data-science-dots>
+			<div class="mt-2 flex justify-center gap-2 lg:hidden">
 				{
 					cards.map((_, index) => (
 						<button
 							type="button"
 							aria-label={`Go to slide ${index + 1}`}
-							data-science-dot={index}
+							data-dot={index}
 							class="h-2 w-2 rounded-full bg-wale-700/25 transition-all data-[active=true]:w-6 data-[active=true]:bg-wale-700"
 						/>
 					))
@@ -111,76 +111,3 @@ const cards = [
 		</div>
 	</div>
 </section>
-
-<script>
-	document.querySelectorAll<HTMLElement>("[data-science-slider]").forEach((slider) => {
-		const track = slider.querySelector<HTMLElement>("[data-science-track]");
-		const slides = Array.from(slider.querySelectorAll<HTMLElement>("[data-science-slide]"));
-		const dots = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-science-dot]"));
-		if (!track || slides.length === 0 || dots.length === 0) return;
-
-		const setActive = (index: number) => {
-			dots.forEach((dot, i) => dot.setAttribute("data-active", String(i === index)));
-		};
-
-		const observer = new IntersectionObserver(
-			(entries) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						const index = slides.indexOf(entry.target as HTMLElement);
-						if (index !== -1) setActive(index);
-					}
-				});
-			},
-			{ root: track, threshold: 0.6 },
-		);
-		slides.forEach((slide) => observer.observe(slide));
-
-		dots.forEach((dot, index) => {
-			dot.addEventListener("click", () => {
-				slides[index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-			});
-		});
-
-		setActive(0);
-
-		// Pointer-drag to scroll (mouse/trackpad users; touch already scrolls natively).
-		// Tracked via window (not setPointerCapture) — capturing the pointer on track
-		// retargets the ensuing click to the track itself, breaking nested links/buttons.
-		let isDragging = false;
-		let startX = 0;
-		let startScrollLeft = 0;
-		let pendingDx: number | null = null;
-
-		const applyScroll = () => {
-			if (pendingDx === null) return;
-			track.scrollLeft = startScrollLeft - pendingDx;
-			pendingDx = null;
-		};
-
-		track.addEventListener("pointerdown", (e) => {
-			if (e.pointerType === "touch") return;
-			isDragging = true;
-			startX = e.clientX;
-			startScrollLeft = track.scrollLeft;
-			// CSS scroll-snap fights manual scrollLeft updates mid-drag, causing jitter —
-			// suspend it while dragging and let it re-settle naturally on release.
-			track.style.scrollSnapType = "none";
-		});
-
-		window.addEventListener("pointermove", (e) => {
-			if (!isDragging) return;
-			const dx = e.clientX - startX;
-			pendingDx = dx;
-			requestAnimationFrame(applyScroll);
-		});
-
-		const endDrag = () => {
-			if (!isDragging) return;
-			isDragging = false;
-			track.style.scrollSnapType = "";
-		};
-		window.addEventListener("pointerup", endDrag);
-		window.addEventListener("pointercancel", endDrag);
-	});
-</script>

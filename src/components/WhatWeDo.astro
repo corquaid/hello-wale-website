@@ -41,10 +41,10 @@ const pillars = [
       We're connecting the two.
     </h2>
 
-    <div class="w-full lg:mt-8" data-pillar-slider>
+    <div class="w-full lg:mt-8" data-slider>
       <div
         class="scrollbar-none -mr-6 flex w-full cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto pb-4 select-none active:cursor-grabbing sm:-mr-10 lg:mr-0 lg:cursor-auto lg:snap-none lg:items-end lg:justify-center lg:overflow-visible lg:pb-0 lg:active:cursor-auto"
-        data-pillar-track
+        data-track
       >
         {
           pillars.map(pillar => (
@@ -55,7 +55,7 @@ const pillars = [
                 pillar.variant === "gradient" && "bg-gradient-to-t from-[#914d61] to-[#380121]",
                 pillar.variant === "sand" && "bg-wale-sand",
               ]}
-              data-pillar-slide
+              data-slide
             >
               {pillar.variant === "photo" && (
                 <Image
@@ -99,13 +99,13 @@ const pillars = [
         }
       </div>
 
-      <div class="mt-2 flex justify-center gap-2 lg:hidden" data-pillar-dots>
+      <div class="mt-2 flex justify-center gap-2 lg:hidden">
         {
           pillars.map((_, index) => (
             <button
               type="button"
               aria-label={`Go to slide ${index + 1}`}
-              data-pillar-dot={index}
+              data-dot={index}
               class="h-2 w-2 rounded-full bg-wale-700/25 transition-all data-[active=true]:w-6 data-[active=true]:bg-wale-700"
             />
           ))
@@ -114,92 +114,3 @@ const pillars = [
     </div>
   </div>
 </section>
-
-<script>
-  document.querySelectorAll<HTMLElement>("[data-pillar-slider]").forEach(slider => {
-    const track = slider.querySelector<HTMLElement>("[data-pillar-track]");
-    const slides = Array.from(slider.querySelectorAll<HTMLElement>("[data-pillar-slide]"));
-    const dots = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-pillar-dot]"));
-    if (!track || slides.length === 0 || dots.length === 0) return;
-
-    const setActive = (index: number) => {
-      dots.forEach((dot, i) => dot.setAttribute("data-active", String(i === index)));
-    };
-
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const index = slides.indexOf(entry.target as HTMLElement);
-            if (index !== -1) setActive(index);
-          }
-        });
-      },
-      { root: track, threshold: 0.6 },
-    );
-    slides.forEach(slide => observer.observe(slide));
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        slides[index]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      });
-    });
-
-    setActive(0);
-
-    // Pointer-drag to scroll (mouse/trackpad users; touch already scrolls natively)
-    let isDragging = false;
-    let dragged = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-    let pendingDx: number | null = null;
-
-    const applyScroll = () => {
-      if (pendingDx === null) return;
-      track.scrollLeft = startScrollLeft - pendingDx;
-      pendingDx = null;
-    };
-
-    // Tracked via window (not setPointerCapture) — capturing the pointer on track
-    // retargets the ensuing click to the track itself, which silently breaks the
-    // nested <a> tiles' default navigation.
-    track.addEventListener("pointerdown", e => {
-      if (e.pointerType === "touch") return;
-      isDragging = true;
-      dragged = false;
-      startX = e.clientX;
-      startScrollLeft = track.scrollLeft;
-      // CSS scroll-snap fights manual scrollLeft updates mid-drag, causing jitter —
-      // suspend it while dragging and let it re-settle naturally on release.
-      track.style.scrollSnapType = "none";
-    });
-
-    window.addEventListener("pointermove", e => {
-      if (!isDragging) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 3) dragged = true;
-      pendingDx = dx;
-      requestAnimationFrame(applyScroll);
-    });
-
-    const endDrag = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      track.style.scrollSnapType = "";
-    };
-    window.addEventListener("pointerup", endDrag);
-    window.addEventListener("pointercancel", endDrag);
-
-    // Suppress the click that follows a drag so links/buttons don't fire accidentally
-    track.addEventListener(
-      "click",
-      e => {
-        if (dragged) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      },
-      { capture: true },
-    );
-  });
-</script>

@@ -21,16 +21,16 @@ const benefits = [
 ];
 ---
 
-<section class="relative isolate">
+<section class="relative isolate flex min-h-[80vh] items-center overflow-hidden sm:min-h-[85vh] lg:aspect-[3024/1654] lg:min-h-0">
 	<Image
 		src={hostsBg}
 		alt=""
-		class="absolute inset-x-0 -top-16 -z-10 h-[calc(100%+4rem)] w-full object-cover object-[68%_top] sm:-top-24 sm:h-[calc(100%+6rem)] lg:-top-32 lg:h-[calc(100%+8rem)]"
-		widths={[768, 1200, 1600]}
+		class="absolute inset-0 -z-10 h-full w-full object-cover object-center"
+		widths={[768, 1200, 1600, 2400]}
 		sizes="100vw"
 	/>
 
-	<div class="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-28 sm:px-10 sm:py-36 lg:flex-row lg:items-center lg:justify-between lg:px-20 lg:py-48">
+	<div class="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-20 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:gap-24 lg:px-6 lg:py-30">
 		<div class="flex w-full flex-col items-start gap-6 rounded-3xl bg-white/85 p-6 backdrop-blur-sm lg:w-130">
 			<p class="font-display text-[11px] tracking-[0.33px] text-wale-700 uppercase">
 				For hosts
