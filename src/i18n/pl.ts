@@ -48,7 +48,7 @@ export const pl: Dictionary = {
 	nav: {
 		forCompanies: "Dla firm",
 		forHosts: "Dla gospodarzy",
-		story: "Historia Hello Wale",
+		story: "Historia HelloWale",
 		blog: "Blog",
 		faq: "FAQ",
 		partnerWithUs: "Zostań partnerem",
@@ -308,6 +308,29 @@ export const pl: Dictionary = {
 				"HelloWale startuje w drugiej połowie 2026 roku. Oto jak wygląda współpraca już teraz — zanim platforma będzie dostępna dla wszystkich.",
 			steps: howItWorksSteps,
 			ctaLabel: "Porozmawiajmy",
+		},
+	},
+	professionalsPage: {
+		meta: {
+			title: "Dla profesjonalistów zdalnych",
+			description: "Zdalna praca nie musi oznaczać samotności — znajdź miejsca dopasowane do Twojego stylu pracy.",
+		},
+		hero: {
+			beforeText: "",
+			bubbleText: "Zdalna praca",
+			afterText: "nie musi oznaczać samotności",
+			subtext:
+				"Znajdź miejsca dopasowane do Twojego stylu pracy i poznaj podobnie myślących profesjonalistów, gdziekolwiek jesteś.",
+		},
+		emailCapture: {
+			eyebrow: "Dla freelancerów i pracowników zdalnych",
+			headline: "Podróżujesz solo? Dowiedz się pierwszy.",
+			subtext:
+				"Najlepsze okazje rodzą się z ludzi, których poznajesz. Dotyczy to wszystkiego — od przyjaźni po kontakty zawodowe. Zostaw swój e-mail, a damy Ci znać, gdy tylko HelloWale otworzy się dla osób, które wierzą, że workation lepiej przeżywać z innymi.",
+			placeholder: "Wpisz swój adres e-mail",
+			emailAriaLabel: "Adres e-mail",
+			submitAriaLabel: "Wyślij",
+			successMessage: "Dzięki — odezwiemy się, gdy przyjdzie Twoja kolej.",
 		},
 	},
 };

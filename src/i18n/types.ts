@@ -65,6 +65,16 @@ export interface ForHostsCopy {
 	ctaLabel: string;
 }
 
+export interface EmailCaptureCopy {
+	eyebrow: string;
+	headline: string;
+	subtext: string;
+	placeholder: string;
+	emailAriaLabel: string;
+	submitAriaLabel: string;
+	successMessage: string;
+}
+
 export interface Dictionary {
 	nav: {
 		forCompanies: string;
@@ -126,15 +136,7 @@ export interface Dictionary {
 		};
 		forHosts: ForHostsCopy;
 		howItWorks: HowItWorksCopy;
-		emailCapture: {
-			eyebrow: string;
-			headline: string;
-			subtext: string;
-			placeholder: string;
-			emailAriaLabel: string;
-			submitAriaLabel: string;
-			successMessage: string;
-		};
+		emailCapture: EmailCaptureCopy;
 	};
 	companiesPage: {
 		meta: {
@@ -160,5 +162,13 @@ export interface Dictionary {
 			blocks: AntiSeasonalityBlock[];
 		};
 		howItWorks: HowItWorksCopy;
+	};
+	professionalsPage: {
+		meta: {
+			title: string;
+			description: string;
+		};
+		hero: HeroCopy;
+		emailCapture: EmailCaptureCopy;
 	};
 }

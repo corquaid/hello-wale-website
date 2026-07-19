@@ -53,11 +53,11 @@ const langToggleClass = isTransparent
 <header
 	class={
 		isTransparent
-			? "relative z-10 py-6 sm:px-20"
-			: "relative z-10 border-b border-gray-200 bg-white px-6 py-4 sm:px-20"
+			? "relative z-10 py-6"
+			: "relative z-10 border-b border-gray-200 bg-white px-6 py-4 lg:px-20"
 	}
 >
-	<div class="mx-auto hidden max-w-7xl items-center justify-between sm:flex">
+	<div class="mx-auto hidden max-w-7xl items-center justify-between lg:flex">
 		<nav class="flex flex-1 items-center gap-8">
 			{leftLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
 		</nav>
@@ -128,7 +128,7 @@ const langToggleClass = isTransparent
 		</div>
 	</div>
 
-	<div class="relative mx-auto flex max-w-7xl items-center sm:hidden">
+	<div class="relative mx-auto flex max-w-7xl items-center lg:hidden">
 		<button
 			type="button"
 			data-nav-toggle
@@ -162,7 +162,7 @@ const langToggleClass = isTransparent
 
 <div
 	id="mobile-nav-drawer"
-	class="pointer-events-none fixed inset-0 z-50 sm:hidden"
+	class="pointer-events-none fixed inset-0 z-50 lg:hidden"
 	data-nav-drawer
 >
 	<div

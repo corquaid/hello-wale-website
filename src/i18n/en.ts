@@ -45,7 +45,7 @@ export const en: Dictionary = {
 	nav: {
 		forCompanies: "For Companies",
 		forHosts: "For Hosts",
-		story: "Hello Wale Story",
+		story: "HelloWale Story",
 		blog: "Blog",
 		faq: "FAQ",
 		partnerWithUs: "Partner with us",
@@ -304,6 +304,29 @@ export const en: Dictionary = {
 				"HelloWale is launching later in 2026. Here's how partnership works right now before the platform is open to everyone.",
 			steps: howItWorksSteps,
 			ctaLabel: "Let's Talk",
+		},
+	},
+	professionalsPage: {
+		meta: {
+			title: "For Remote Professionals",
+			description: "Remote doesn't have to mean alone — find places that work for the way you work.",
+		},
+		hero: {
+			beforeText: "",
+			bubbleText: "Remote",
+			afterText: "doesn't have to mean alone",
+			subtext:
+				"Find places that work for the way you work and connect with like-minded professionals wherever you go.",
+		},
+		emailCapture: {
+			eyebrow: "For remote workers & freelancers",
+			headline: "Solo traveler? Be the first to know.",
+			subtext:
+				"The best opportunities come from the people you meet. And that goes for everything from friendships to professional networks. Leave your email and we'll let you know the moment HelloWale opens to individuals who believe workations are better when shared with others.",
+			placeholder: "Enter your email address",
+			emailAriaLabel: "Email address",
+			submitAriaLabel: "Submit",
+			successMessage: "Thanks — we'll be in touch when it's your turn.",
 		},
 	},
 };

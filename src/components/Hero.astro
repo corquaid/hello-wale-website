@@ -19,6 +19,7 @@ interface Props {
 	afterText?: string;
 	subtext?: string;
 	ctas?: [Cta, Cta];
+	showCtas?: boolean;
 	showPhoto?: boolean;
 	photo?: ImageMetadata;
 	navVariant?: "solid" | "transparent";
@@ -37,6 +38,7 @@ const {
 		{ label: "Partner with us", variant: "ghost" },
 		{ label: "Start Listing — It's Free", variant: "cream" },
 	],
+	showCtas = true,
 	showPhoto = true,
 	photo = heroBg,
 	navVariant = "transparent",
@@ -97,23 +99,27 @@ const {
 			{subtext}
 		</p>
 
-		<div class="flex w-full max-w-md flex-col gap-2 sm:flex-row">
-			<CtaButton
-				label={ctas[0].label}
-				href={ctas[0].href}
-				variant={ctas[0].variant}
-				shape="full"
-				radius="2xl"
-				class="flex-1"
-			/>
-			<CtaButton
-				label={ctas[1].label}
-				href={ctas[1].href}
-				variant={ctas[1].variant}
-				shape="notch"
-				radius="2xl"
-				class="flex-1"
-			/>
-		</div>
+		{
+			showCtas && (
+				<div class="flex w-full max-w-md flex-col gap-2 sm:flex-row">
+					<CtaButton
+						label={ctas[0].label}
+						href={ctas[0].href}
+						variant={ctas[0].variant}
+						shape="full"
+						radius="2xl"
+						class="flex-1"
+					/>
+					<CtaButton
+						label={ctas[1].label}
+						href={ctas[1].href}
+						variant={ctas[1].variant}
+						shape="notch"
+						radius="2xl"
+						class="flex-1"
+					/>
+				</div>
+			)
+		}
 	</div>
 </section>

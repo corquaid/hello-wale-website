@@ -18,13 +18,17 @@ interface Props {
   headlineAfter?: string;
   headlineLine2?: string;
   pillars?: Pillar[];
+  hrefs?: string[];
 }
+
+const contactHref = `${import.meta.env.BASE_URL}contact`;
 
 const {
   eyebrow = "Connecting people and places that work",
   headlineBefore = "Burned-out teams.",
   headlineAfter = "Empty winter calendars.",
   headlineLine2 = "We're connecting the two.",
+  hrefs = [contactHref, contactHref, contactHref],
   pillars = [
     {
       heading: "Companies struggling with retention",
@@ -71,7 +75,7 @@ const {
             const variant = pillarVariants[index];
             return (
               <a
-                href={`${import.meta.env.BASE_URL}contact`}
+                href={hrefs[index]}
                 class:list={[
                   "relative isolate flex w-[85%] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-4xl px-8 py-12 sm:w-[60%] lg:h-144.75 lg:w-108",
                   variant === "gradient" && "bg-linear-to-t from-[#914d61] to-[#380121]",

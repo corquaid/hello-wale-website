@@ -1,0 +1,44 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../Hero.astro";
+import EmailCapture from "../EmailCapture.astro";
+import professionalsHero from "../../assets/images/professionals-hero.jpg";
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).professionalsPage;
+---
+
+<Layout
+	title={t.meta.title}
+	description={t.meta.description}
+	showNav={false}
+	lang={lang}
+	currentPath="professionals"
+>
+	<Hero
+		beforeText={t.hero.beforeText}
+		bubbleText={t.hero.bubbleText}
+		afterText={t.hero.afterText}
+		subtext={t.hero.subtext}
+		photo={professionalsHero}
+		showCtas={false}
+		navVariant="transparent"
+		bubbleWidthClass="w-[3.9em]"
+		lang={lang}
+		currentPath="professionals"
+	/>
+	<EmailCapture
+		eyebrow={t.emailCapture.eyebrow}
+		headline={t.emailCapture.headline}
+		subtext={t.emailCapture.subtext}
+		placeholder={t.emailCapture.placeholder}
+		emailAriaLabel={t.emailCapture.emailAriaLabel}
+		submitAriaLabel={t.emailCapture.submitAriaLabel}
+		successMessage={t.emailCapture.successMessage}
+	/>
+</Layout>
