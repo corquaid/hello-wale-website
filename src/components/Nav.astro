@@ -1,31 +1,53 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
 import logoLight from "../assets/images/logo-mark-light.svg";
 import logoDark from "../assets/images/logo-mark-dark.svg";
 import CtaButton from "./CtaButton.astro";
+import {
+	useTranslations,
+	translatedRoutes,
+	locales,
+	localeMeta,
+	type Locale,
+} from "../i18n/utils";
 
 interface Props {
 	variant?: "solid" | "transparent";
+	lang?: Locale;
+	currentPath?: string;
 }
 
-const { variant = "solid" } = Astro.props;
+const { variant = "solid", lang = "en", currentPath = "" } = Astro.props;
 const isTransparent = variant === "transparent";
 const base = import.meta.env.BASE_URL;
+const t = useTranslations(lang);
+
+const homeHref = getRelativeLocaleUrl(lang, "");
 
 const leftLinks = [
-	{ href: `${base}companies`, label: "For Companies" },
-	{ href: `${base}hosts`, label: "For Hosts" },
+	{ href: getRelativeLocaleUrl(lang, "companies"), label: t.nav.forCompanies },
+	{ href: getRelativeLocaleUrl(lang, "hosts"), label: t.nav.forHosts },
 ];
 
 const rightLinks = [
-	{ href: "#", label: "Hello Wale Story" },
-	{ href: `${base}blog`, label: "Blog" },
-	{ href: `${base}faq`, label: "FAQ" },
+	{ href: "#", label: t.nav.story },
+	{ href: `${base}blog`, label: t.nav.blog },
+	{ href: `${base}faq`, label: t.nav.faq },
 ];
 
 const linkClass = isTransparent
 	? "font-display text-[13px] font-medium text-white"
 	: "font-display text-[13px] font-medium text-gray-700 hover:text-wale-700";
 
+// Falls back to each locale's homepage when the current page has no
+// translation yet, so the switcher never links to a 404.
+const isCurrentPathTranslated = translatedRoutes.includes(currentPath);
+const getLocaleHref = (loc: Locale) =>
+	getRelativeLocaleUrl(loc, isCurrentPathTranslated ? currentPath : "");
+
+const langToggleClass = isTransparent
+	? "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+	: "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-wale-700";
 ---
 
 <header
@@ -40,7 +62,7 @@ const linkClass = isTransparent
 			{leftLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
 		</nav>
 
-		<a href={base} class="flex shrink-0 items-center">
+		<a href={homeHref} class="flex shrink-0 items-center">
 			<img
 				src={isTransparent ? logoLight.src : logoDark.src}
 				alt="hellowale"
@@ -50,8 +72,54 @@ const linkClass = isTransparent
 
 		<div class="flex flex-1 items-center justify-end gap-6">
 			{rightLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
+			<div class="relative" data-lang-switcher>
+				<button
+					type="button"
+					data-lang-toggle
+					aria-expanded="false"
+					aria-haspopup="true"
+					aria-label="Change language"
+					class={langToggleClass}
+				>
+					<span aria-hidden="true">{localeMeta[lang].flag}</span>
+					<span>{lang.toUpperCase()}</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="h-3.5 w-3.5"
+					>
+						<path d="m6 9 6 6 6-6" />
+					</svg>
+				</button>
+				<div
+					data-lang-menu
+					class="pointer-events-none absolute right-0 top-full z-20 mt-2 w-40 origin-top-right scale-95 rounded-xl border border-gray-100 bg-white p-1.5 opacity-0 shadow-lg transition-all duration-150"
+				>
+					{
+						locales.map((loc) => (
+							<a
+								href={getLocaleHref(loc)}
+								class:list={[
+									"flex items-center gap-2 rounded-lg px-3 py-2 font-display text-[13px] font-medium",
+									loc === lang
+										? "bg-wale-sand text-wale-700"
+										: "text-gray-600 hover:bg-gray-50",
+								]}
+							>
+								<span aria-hidden="true">{localeMeta[loc].flag}</span>
+								{localeMeta[loc].label}
+							</a>
+						))
+					}
+				</div>
+			</div>
 			<CtaButton
-				label="Partner with us"
+				label={t.nav.partnerWithUs}
 				href={`${base}contact`}
 				variant={isTransparent ? "cream" : "primary"}
 				size="nav"
@@ -82,7 +150,7 @@ const linkClass = isTransparent
 			</svg>
 		</button>
 
-		<a href={base} class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+		<a href={homeHref} class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
 			<img
 				src={isTransparent ? logoLight.src : logoDark.src}
 				alt="hellowale"
@@ -136,8 +204,27 @@ const linkClass = isTransparent
 			}
 		</nav>
 
+		<div class="mt-6 flex items-center gap-2">
+			{
+				locales.map((loc) => (
+					<a
+						href={getLocaleHref(loc)}
+						class:list={[
+							"flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-display text-[13px] font-medium",
+							loc === lang
+								? "border-wale-700 bg-wale-sand text-wale-700"
+								: "border-gray-200 text-gray-500",
+						]}
+					>
+						<span aria-hidden="true">{localeMeta[loc].flag}</span>
+						{loc.toUpperCase()}
+					</a>
+				))
+			}
+		</div>
+
 		<CtaButton
-			label="Partner with us"
+			label={t.nav.partnerWithUs}
 			href={`${base}contact`}
 			size="nav"
 			fullWidth
@@ -170,4 +257,26 @@ const linkClass = isTransparent
 	document.querySelector("[data-nav-toggle]")?.addEventListener("click", openDrawer);
 	document.querySelector("[data-nav-close]")?.addEventListener("click", closeDrawer);
 	document.querySelector("[data-nav-backdrop]")?.addEventListener("click", closeDrawer);
+
+	const langToggle = document.querySelector("[data-lang-toggle]");
+	const langMenu = document.querySelector("[data-lang-menu]");
+
+	function closeLangMenu() {
+		langMenu?.classList.add("opacity-0", "scale-95", "pointer-events-none");
+		langToggle?.setAttribute("aria-expanded", "false");
+	}
+
+	function toggleLangMenu(event: Event) {
+		event.stopPropagation();
+		const isOpen = langToggle?.getAttribute("aria-expanded") === "true";
+		if (isOpen) {
+			closeLangMenu();
+		} else {
+			langMenu?.classList.remove("opacity-0", "scale-95", "pointer-events-none");
+			langToggle?.setAttribute("aria-expanded", "true");
+		}
+	}
+
+	langToggle?.addEventListener("click", toggleLangMenu);
+	document.addEventListener("click", closeLangMenu);
 </script>

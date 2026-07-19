@@ -29,6 +29,26 @@ const listing = {
 	location: "Warsaw, Poland",
 	rating: "4.89",
 };
+
+interface Props {
+	eyebrow?: string;
+	headline?: string;
+	subtext?: string;
+	placeholder?: string;
+	emailAriaLabel?: string;
+	submitAriaLabel?: string;
+	successMessage?: string;
+}
+
+const {
+	eyebrow = "For remote workers & freelancers",
+	headline = "Solo traveler? Be the first to know",
+	subtext = "Workation isn't just for companies. If you're a freelancer or remote worker, leave your email and we'll let you know the moment HelloWale opens to individuals.",
+	placeholder = "Enter your email address",
+	emailAriaLabel = "Email address",
+	submitAriaLabel = "Submit",
+	successMessage = "Thanks — we'll be in touch when it's your turn.",
+} = Astro.props;
 ---
 
 <section class="relative isolate flex min-h-200 flex-col justify-start overflow-hidden bg-linear-to-b from-[#914d61] to-[#380121] px-6 py-20 sm:min-h-237.5 sm:px-10 lg:min-h-287.5 lg:px-20 lg:py-30">
@@ -64,14 +84,13 @@ const listing = {
 
 	<div class="relative mx-auto flex max-w-3xl flex-col items-center gap-8 text-center">
 		<p class="font-display text-[11px] font-semibold tracking-[0.33px] text-wale-peach uppercase">
-			For remote workers &amp; freelancers
+			{eyebrow}
 		</p>
 		<p class="font-display text-3xl leading-tight font-bold tracking-[-0.6px] text-white sm:text-4xl lg:text-[40px] lg:leading-12.5">
-			Solo traveler? Be the first to know
+			{headline}
 		</p>
 		<p class="max-w-xl font-display text-[17px] leading-7 text-[#eaeaea]">
-			Workation isn't just for companies. If you're a freelancer or remote worker, leave
-			your email and we'll let you know the moment HelloWale opens to individuals.
+			{subtext}
 		</p>
 
 		<form
@@ -81,13 +100,13 @@ const listing = {
 			<input
 				type="email"
 				required
-				placeholder="Enter your email address"
-				aria-label="Email address"
+				placeholder={placeholder}
+				aria-label={emailAriaLabel}
 				class="h-15 rounded-2xl border border-wale-peach bg-wale-peach/16 px-6 font-display text-sm text-white placeholder:text-white/70 focus:outline-none sm:flex-1"
 			/>
 			<button
 				type="submit"
-				aria-label="Submit"
+				aria-label={submitAriaLabel}
 				class="flex h-15 w-full shrink-0 items-center justify-center rounded-bl-2xl rounded-tl-2xl rounded-tr-2xl bg-wale-cream sm:w-14.75"
 			>
 				<svg
@@ -105,7 +124,7 @@ const listing = {
 			</button>
 		</form>
 		<p class="hidden font-display text-sm text-wale-peach" data-email-success>
-			Thanks — we'll be in touch when it's your turn.
+			{successMessage}
 		</p>
 	</div>
 </section>

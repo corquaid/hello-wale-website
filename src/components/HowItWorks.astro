@@ -5,41 +5,49 @@ import stepLearnAboutYou from "../assets/images/step-learn-about-you.png";
 import stepPartnership from "../assets/images/step-partnership.png";
 import stepForever from "../assets/images/step-forever.png";
 
-const steps = [
-	{
-		number: "01",
-		title: "You reach out",
-		description: "Through this site, or by email. We respond within 48 hours.",
-		icon: stepReachOut,
-	},
-	{
-		number: "02",
-		title: "We learn about you",
-		description: "A short call to understand your team's needs or your property's offering.",
-		icon: stepLearnAboutYou,
-	},
-	{
-		number: "03",
-		title: "The partnership",
-		description: "Subscription tier, booking rates, founding benefits tailored to fit.",
-		icon: stepPartnership,
-	},
-	{
-		number: "04",
-		title: "You're in. Forever.",
-		description: "Founding partners stay founding partners. Locked-in pricing, lifetime.",
-		icon: stepForever,
-	},
-] as const;
+const stepIcons = [stepReachOut, stepLearnAboutYou, stepPartnership, stepForever];
+
+interface Step {
+	number: string;
+	title: string;
+	description: string;
+}
 
 interface Props {
+	eyebrow?: string;
 	headline?: string;
 	subtext?: string;
+	steps?: Step[];
+	ctaLabel?: string;
 }
 
 const {
+	eyebrow = "How it works",
 	headline = "From conversation to workation.",
 	subtext = "HelloWale is launching in 2026. Here's how partnership works right now — before the platform is live.",
+	steps = [
+		{
+			number: "01",
+			title: "You reach out",
+			description: "Through this site, or by email. We respond within 48 hours.",
+		},
+		{
+			number: "02",
+			title: "We learn about you",
+			description: "A short call to understand your team's needs or your property's offering.",
+		},
+		{
+			number: "03",
+			title: "The partnership",
+			description: "Subscription tier, booking rates, founding benefits tailored to fit.",
+		},
+		{
+			number: "04",
+			title: "You're in. Forever.",
+			description: "Founding partners stay founding partners. Locked-in pricing, lifetime.",
+		},
+	],
+	ctaLabel = "Let's Talk",
 } = Astro.props;
 ---
 
@@ -47,7 +55,7 @@ const {
 	<div class="mx-auto flex max-w-6xl flex-col items-center gap-16">
 		<div class="flex flex-col items-center gap-4 text-center">
 			<p class="font-display text-[11px] font-semibold tracking-[0.33px] text-wale-700 uppercase">
-				How it works
+				{eyebrow}
 			</p>
 			<p class="max-w-3xl font-display text-4xl leading-tight font-bold tracking-[-1.12px] text-black sm:text-5xl lg:text-[56px] lg:leading-16">
 				{headline}
@@ -63,7 +71,7 @@ const {
 				data-track
 			>
 				{
-					steps.map((step) => (
+					steps.map((step, index) => (
 						<div
 							class="flex h-full w-[85%] shrink-0 snap-center flex-col justify-between gap-8 rounded-[20px] bg-white p-8 sm:w-[60%] lg:w-auto lg:shrink"
 							data-slide
@@ -73,7 +81,7 @@ const {
 							</p>
 
 							<img
-								src={step.icon.src}
+								src={stepIcons[index].src}
 								alt=""
 								class="h-28 w-auto self-center object-contain"
 							/>
@@ -105,6 +113,6 @@ const {
 			</div>
 		</div>
 
-		<CtaButton label="Let's Talk" shape="notch" radius="2xl" class="min-w-72" />
+		<CtaButton label={ctaLabel} shape="notch" radius="2xl" class="min-w-72" />
 	</div>
 </section>

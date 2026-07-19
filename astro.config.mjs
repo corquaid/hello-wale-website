@@ -10,6 +10,14 @@ export default defineConfig({
   site: 'https://corquaid.github.io',
   base: '/hello-wale-website/',
 
+  i18n: {
+    locales: ['en', 'pl'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+
   integrations: [react()],
 
   vite: {

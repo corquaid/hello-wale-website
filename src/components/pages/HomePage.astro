@@ -1,0 +1,108 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../Hero.astro";
+import WhatWeDo from "../WhatWeDo.astro";
+import ForCompanies from "../ForCompanies.astro";
+import WhyWellbeing from "../WhyWellbeing.astro";
+import UseCases from "../UseCases.astro";
+import ScienceOfChange from "../ScienceOfChange.astro";
+import AntiSeasonality from "../AntiSeasonality.astro";
+import ForHosts from "../ForHosts.astro";
+import HowItWorks from "../HowItWorks.astro";
+import EmailCapture from "../EmailCapture.astro";
+import usecaseMarketing from "../../assets/images/usecase-marketing.jpg";
+import usecaseTechteam from "../../assets/images/usecase-techteam.jpg";
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const dict = useTranslations(lang);
+const { common } = dict;
+const t = dict.homePage;
+
+const useCaseImages = [usecaseMarketing, usecaseTechteam];
+const useCases = t.useCases.items.map((item, index) => ({
+	...item,
+	image: useCaseImages[index],
+}));
+---
+
+<Layout title={t.meta.title} description={t.meta.description} showNav={false} lang={lang} currentPath="">
+	<Hero
+		beforeText={t.hero.beforeText}
+		bubbleText={t.hero.bubbleText}
+		afterText={t.hero.afterText}
+		subtext={t.hero.subtext}
+		ctas={[
+			{ label: t.hero.ctaGhost, variant: "ghost" },
+			{ label: t.hero.ctaCream, variant: "cream" },
+		]}
+		lang={lang}
+		currentPath=""
+	/>
+	<WhatWeDo
+		eyebrow={t.whatWeDo.eyebrow}
+		headlineBefore={t.whatWeDo.headlineBefore}
+		headlineAfter={t.whatWeDo.headlineAfter}
+		headlineLine2={t.whatWeDo.headlineLine2}
+		pillars={t.whatWeDo.pillars}
+	/>
+	<ForCompanies
+		eyebrow={common.forCompanies.eyebrow}
+		headline={common.forCompanies.headline}
+		subtext={common.forCompanies.subtext}
+		imageAlt={common.forCompanies.imageAlt}
+		benefits={common.forCompanies.benefits}
+		ctaLabel={common.forCompanies.ctaLabel}
+	/>
+	<WhyWellbeing
+		eyebrow={common.whyWellbeing.eyebrow}
+		headline={common.whyWellbeing.headline}
+		subtext={common.whyWellbeing.subtext}
+		stats={common.whyWellbeing.stats}
+		sourceLabel={common.whyWellbeing.sourceLabel}
+	/>
+	<UseCases
+		eyebrow={common.useCases.eyebrow}
+		headline={common.useCases.headline}
+		subtext={common.useCases.subtext}
+		useCases={useCases}
+	/>
+	<ScienceOfChange
+		eyebrow={common.scienceOfChange.eyebrow}
+		headline={common.scienceOfChange.headline}
+		subtext={common.scienceOfChange.subtext}
+		cards={common.scienceOfChange.cards}
+	/>
+	<AntiSeasonality
+		eyebrow={t.antiSeasonality.eyebrow}
+		blocks={[t.antiSeasonality.block]}
+		cta={{ label: t.antiSeasonality.ctaLabel }}
+	/>
+	<ForHosts
+		eyebrow={t.forHosts.eyebrow}
+		headline={t.forHosts.headline}
+		paragraph={t.forHosts.paragraph}
+		benefits={t.forHosts.benefits}
+		ctaLabel={t.forHosts.ctaLabel}
+	/>
+	<HowItWorks
+		eyebrow={t.howItWorks.eyebrow}
+		headline={t.howItWorks.headline}
+		subtext={t.howItWorks.subtext}
+		steps={t.howItWorks.steps}
+		ctaLabel={t.howItWorks.ctaLabel}
+	/>
+	<EmailCapture
+		eyebrow={t.emailCapture.eyebrow}
+		headline={t.emailCapture.headline}
+		subtext={t.emailCapture.subtext}
+		placeholder={t.emailCapture.placeholder}
+		emailAriaLabel={t.emailCapture.emailAriaLabel}
+		submitAriaLabel={t.emailCapture.submitAriaLabel}
+		successMessage={t.emailCapture.successMessage}
+	/>
+</Layout>

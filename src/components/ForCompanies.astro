@@ -4,12 +4,23 @@ import companiesDoor from "../assets/images/companies-door.jpg";
 import benefitIcon from "../assets/images/benefit-icon.png";
 import CtaButton from "./CtaButton.astro";
 
-const benefits = [
-	"Lower cost than you think",
-	"Employer branding",
-	"Higher creativity",
-	"Better retention",
-];
+interface Props {
+	eyebrow?: string;
+	headline?: string;
+	subtext?: string;
+	imageAlt?: string;
+	benefits?: string[];
+	ctaLabel?: string;
+}
+
+const {
+	eyebrow = "For Companies",
+	headline = "The wellbeing benefit\nyour team will actually use.",
+	subtext = "Workation isn't a perk anymore — it's how the best teams stay sharp, creative, and retained. HelloWale makes it simple to offer.",
+	imageAlt = "A hotel-style door hanger reading 'Where work doesn't feel like work anymore' on a dark wood door surrounded by jungle greenery",
+	benefits = ["Lower cost than you think", "Employer branding", "Higher creativity", "Better retention"],
+	ctaLabel = "Partner your company",
+} = Astro.props;
 ---
 
 <section class="bg-white">
@@ -17,7 +28,7 @@ const benefits = [
 		<div class="relative h-90 shrink-0 sm:h-120 lg:h-auto lg:w-[49%]">
 			<Image
 				src={companiesDoor}
-				alt="A hotel-style door hanger reading 'Where work doesn't feel like work anymore' on a dark wood door surrounded by jungle greenery"
+				alt={imageAlt}
 				class="absolute inset-0 h-full w-full object-cover"
 				widths={[640, 960, 1400, 2048]}
 				sizes="(min-width: 1024px) 60vw, 100vw"
@@ -29,18 +40,22 @@ const benefits = [
 				<p
 					class="text-wale-700 font-display text-[11px] tracking-[0.33px] uppercase"
 				>
-					For Companies
+					{eyebrow}
 				</p>
 
 				<div class="flex flex-col gap-4">
 					<h2 class="font-display text-3xl leading-tight tracking-[-0.66px] text-black sm:text-4xl lg:text-[44px] lg:leading-13.5">
-						The wellbeing benefit
-						<br />
-						your team will actually use.
+						{
+							headline.split("\n").map((line, index) => (
+								<>
+									{index > 0 && <br />}
+									{line}
+								</>
+							))
+						}
 					</h2>
 					<p class="max-w-md font-display text-[17px] leading-7 text-[#5f5f5f]">
-						Workation isn't a perk anymore — it's how the best teams stay sharp, creative,
-						and retained. HelloWale makes it simple to offer.
+						{subtext}
 					</p>
 				</div>
 
@@ -56,7 +71,7 @@ const benefits = [
 				</div>
 			</div>
 
-			<CtaButton label="Partner your company" />
+			<CtaButton label={ctaLabel} />
 		</div>
 	</div>
 </section>

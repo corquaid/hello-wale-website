@@ -4,42 +4,61 @@ import pillarHosts from "../assets/images/pillar-hosts.jpg";
 import eyebrowIcon from "../assets/images/eyebrow-icon.png";
 import CtaButton from "./CtaButton.astro";
 
-const pillars = [
-  {
-    heading: "Companies struggling with retention",
-    body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
-    cta: "Partner your company",
-    variant: "gradient",
-  },
-  {
-    heading: "Hosts facing seasonality",
-    body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
-    cta: "List your property",
-    variant: "photo",
-  },
-  {
-    heading: "Remote professionals tired of working alone",
-    body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
-    cta: "Get early access",
-    variant: "sand",
-  },
-] as const;
+const pillarVariants = ["gradient", "photo", "sand"] as const;
+
+interface Pillar {
+  heading: string;
+  body: string;
+  cta: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  headlineBefore?: string;
+  headlineAfter?: string;
+  headlineLine2?: string;
+  pillars?: Pillar[];
+}
+
+const {
+  eyebrow = "Connecting people and places that work",
+  headlineBefore = "Burned-out teams.",
+  headlineAfter = "Empty winter calendars.",
+  headlineLine2 = "We're connecting the two.",
+  pillars = [
+    {
+      heading: "Companies struggling with retention",
+      body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
+      cta: "Partner your company",
+    },
+    {
+      heading: "Hosts facing seasonality",
+      body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
+      cta: "List your property",
+    },
+    {
+      heading: "Remote professionals tired of working alone",
+      body: "Help your team break routine, boost wellbeing, and build a culture people stay for.",
+      cta: "Get early access",
+    },
+  ],
+} = Astro.props;
 ---
 
 <section class="bg-wale-50 px-6 py-20 sm:px-10 lg:px-20 lg:py-30">
   <div class="mx-auto flex max-w-6xl flex-col items-center gap-8 text-center">
-    <p class="font-display text-sm tracking-[0.42px] text-wale-700 uppercase">Connecting people and places that work</p>
+    <p class="font-display text-sm tracking-[0.42px] text-wale-700 uppercase">{eyebrow}</p>
 
     <h2 class="font-display text-3xl leading-tight tracking-[-0.48px] text-wale-700 sm:text-4xl">
-      Burned-out teams.
+      {headlineBefore}
       <span
         class="mx-1 inline-flex h-11 w-11 items-center justify-center rounded-full bg-wale-sand align-middle sm:h-14 sm:w-14"
       >
         <img src={eyebrowIcon.src} alt="" class="h-8 w-8 object-contain sm:h-10 sm:w-10" />
       </span>
-      Empty winter calendars.
+      {headlineAfter}
       <br />
-      We're connecting the two.
+      {headlineLine2}
     </h2>
 
     <div class="w-full lg:mt-8" data-slider>
@@ -48,53 +67,56 @@ const pillars = [
         data-track
       >
         {
-          pillars.map(pillar => (
-            <a
-              href={`${import.meta.env.BASE_URL}contact`}
-              class:list={[
-                "relative isolate flex w-[85%] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-4xl px-8 py-12 sm:w-[60%] lg:h-144.75 lg:w-108",
-                pillar.variant === "gradient" && "bg-linear-to-t from-[#914d61] to-[#380121]",
-                pillar.variant === "sand" && "bg-wale-sand",
-              ]}
-              data-slide
-            >
-              {pillar.variant === "photo" && (
-                <Image
-                  src={pillarHosts}
-                  alt=""
-                  class="absolute inset-0 -z-20 h-full w-full object-cover"
-                  widths={[480, 768, 1200, 1800]}
-                  sizes="(min-width: 1024px) 700px, 100vw"
-                />
-              )}
-
-              <p
+          pillars.map((pillar, index) => {
+            const variant = pillarVariants[index];
+            return (
+              <a
+                href={`${import.meta.env.BASE_URL}contact`}
                 class:list={[
-                  "font-display text-left text-[32px] tracking-[-0.16px] lg:text-[40px]",
-                  pillar.variant === "sand" ? "text-wale-700" : "text-white",
+                  "relative isolate flex w-[85%] shrink-0 snap-center flex-col justify-between overflow-hidden rounded-4xl px-8 py-12 sm:w-[60%] lg:h-144.75 lg:w-108",
+                  variant === "gradient" && "bg-linear-to-t from-[#914d61] to-[#380121]",
+                  variant === "sand" && "bg-wale-sand",
                 ]}
+                data-slide
               >
-                {pillar.heading}
-              </p>
+                {variant === "photo" && (
+                  <Image
+                    src={pillarHosts}
+                    alt=""
+                    class="absolute inset-0 -z-20 h-full w-full object-cover"
+                    widths={[480, 768, 1200, 1800]}
+                    sizes="(min-width: 1024px) 700px, 100vw"
+                  />
+                )}
 
-              <div class="mt-10 flex flex-col items-start gap-6">
                 <p
                   class:list={[
-                    "font-display text-left text-[20px] font-light tracking-[-0.08px]",
-                    pillar.variant === "sand" ? "text-wale-700" : "text-white",
+                    "font-display text-left text-[32px] tracking-[-0.16px] lg:text-[40px]",
+                    variant === "sand" ? "text-wale-700" : "text-white",
                   ]}
                 >
-                  {pillar.body}
+                  {pillar.heading}
                 </p>
-                <CtaButton
-                  as="span"
-                  label={pillar.cta}
-                  variant={pillar.variant === "photo" ? "peach" : "primary"}
-                  fullWidth
-                />
-              </div>
-            </a>
-          ))
+
+                <div class="mt-10 flex flex-col items-start gap-6">
+                  <p
+                    class:list={[
+                      "font-display text-left text-[20px] font-light tracking-[-0.08px]",
+                      variant === "sand" ? "text-wale-700" : "text-white",
+                    ]}
+                  >
+                    {pillar.body}
+                  </p>
+                  <CtaButton
+                    as="span"
+                    label={pillar.cta}
+                    variant={variant === "photo" ? "peach" : "primary"}
+                    fullWidth
+                  />
+                </div>
+              </a>
+            );
+          })
         }
       </div>
 

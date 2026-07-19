@@ -1,0 +1,61 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../Hero.astro";
+import ForHosts from "../ForHosts.astro";
+import AntiSeasonality from "../AntiSeasonality.astro";
+import HowItWorks from "../HowItWorks.astro";
+import hostsHeroDoor from "../../assets/images/hosts-hero-door.jpg";
+import { useTranslations, type Locale } from "../../i18n/utils";
+
+interface Props {
+	lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang).hostsPage;
+---
+
+<Layout
+	title={t.meta.title}
+	description={t.meta.description}
+	showNav={false}
+	lang={lang}
+	currentPath="hosts"
+>
+	<Hero
+		beforeText={t.hero.beforeText}
+		bubbleText={t.hero.bubbleText}
+		afterText={t.hero.afterText}
+		subtext={t.hero.subtext}
+		ctas={[
+			{ label: t.hero.ctaPartner, variant: "ghost" },
+			{ label: t.hero.ctaListing, variant: "cream" },
+		]}
+		photo={hostsHeroDoor}
+		navVariant="transparent"
+		align="left"
+		bubbleWidthClass="w-[5.4em]"
+		lang={lang}
+		currentPath="hosts"
+	/>
+	<ForHosts
+		eyebrow={t.forHosts.eyebrow}
+		headline={t.forHosts.headline}
+		paragraph={t.forHosts.paragraph}
+		benefits={t.forHosts.benefits}
+		ctaLabel={t.forHosts.ctaLabel}
+	/>
+	<section class="bg-white px-6 py-16 text-center sm:py-20">
+		<p class="font-display text-3xl font-bold tracking-[-0.96px] text-wale-700 sm:text-4xl lg:text-5xl">
+			{t.biggerPicture}
+		</p>
+	</section>
+	<AntiSeasonality blocks={t.antiSeasonality.blocks} cta={null} />
+	<HowItWorks
+		eyebrow={t.howItWorks.eyebrow}
+		headline={t.howItWorks.headline}
+		subtext={t.howItWorks.subtext}
+		steps={t.howItWorks.steps}
+		ctaLabel={t.howItWorks.ctaLabel}
+	/>
+</Layout>

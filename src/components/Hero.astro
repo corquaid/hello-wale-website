@@ -5,6 +5,7 @@ import heroBg from "../assets/images/hero-bg.jpg";
 import officeBubble from "../assets/images/office-bubble.svg";
 import Nav from "./Nav.astro";
 import CtaButton from "./CtaButton.astro";
+import type { Locale } from "../i18n/utils";
 
 interface Cta {
 	label: string;
@@ -23,6 +24,8 @@ interface Props {
 	navVariant?: "solid" | "transparent";
 	bubbleWidthClass?: string;
 	align?: "center" | "left";
+	lang?: Locale;
+	currentPath?: string;
 }
 
 const {
@@ -39,6 +42,8 @@ const {
 	navVariant = "transparent",
 	bubbleWidthClass = "w-[3.5em]",
 	align = "center",
+	lang = "en",
+	currentPath = "",
 } = Astro.props;
 ---
 
@@ -64,7 +69,7 @@ const {
 	}
 
 	<div class="relative w-full">
-		<Nav variant={navVariant} />
+		<Nav variant={navVariant} lang={lang} currentPath={currentPath} />
 	</div>
 
 	<div

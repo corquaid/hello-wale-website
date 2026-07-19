@@ -26,10 +26,18 @@ const defaultUseCases = [
 ];
 
 interface Props {
+	eyebrow?: string;
+	headline?: string;
+	subtext?: string;
 	useCases?: typeof defaultUseCases;
 }
 
-const { useCases = defaultUseCases } = Astro.props;
+const {
+	eyebrow = "Real teams. Real workations.",
+	headline = "Built for teams of every size.",
+	subtext = "Three approaches to workation. One platform that makes it work.",
+	useCases = defaultUseCases,
+} = Astro.props;
 ---
 
 <section class="bg-white px-6 py-20 sm:px-10 lg:px-20 lg:py-30">
@@ -38,13 +46,13 @@ const { useCases = defaultUseCases } = Astro.props;
 			<p
 				class="bg-[linear-gradient(176deg,#fadec2_1.5%,#d19161_34%,#3d142b_100%)] bg-clip-text font-display text-[11px] tracking-[0.33px] text-transparent uppercase"
 			>
-				Real teams. Real workations.
+				{eyebrow}
 			</p>
 			<p class="max-w-3xl font-display text-4xl leading-tight font-bold tracking-[-0.66px] text-[#131313] sm:text-[44px] sm:leading-[54px]">
-				Built for teams of every size.
+				{headline}
 			</p>
 			<p class="max-w-xl font-display text-[17px] leading-[28px] text-[#888785]">
-				Three approaches to workation. One platform that makes it work.
+				{subtext}
 			</p>
 		</div>
 

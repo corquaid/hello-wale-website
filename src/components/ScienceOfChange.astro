@@ -4,32 +4,47 @@ import scienceFocus from "../assets/images/science-focus.jpg";
 import scienceIdeas from "../assets/images/science-ideas.jpg";
 import scienceEnergy from "../assets/images/science-energy.jpg";
 
-const cards = [
-	{
-		title: "Where focus deepens",
-		description:
-			"Same desk, same view, same thinking — the brain filters familiar surroundings, including the ideas that come from them.",
-		image: scienceFocus,
-		alt: "A person wearing headphones focused on a laptop by a window",
-		wide: false,
-	},
-	{
-		title: "Where ideas connect",
-		description:
-			"Why the best ideas come on holiday and rarely back at the desk. Novel environments activate the brain's default mode — the source of insight.",
-		image: scienceIdeas,
-		alt: "Two colleagues high-fiving in a bright office",
-		wide: false,
-	},
-	{
-		title: "Where energy returns",
-		description:
-			"Why a week away often beats a month at the desk. Nature and new spaces reset cognitive capacity faster than time off alone.",
-		image: scienceEnergy,
-		alt: "A couple collaborating together, one wearing glasses, in a bright warm space",
-		wide: true,
-	},
-] as const;
+const cardImages = [scienceFocus, scienceIdeas, scienceEnergy];
+const cardWide = [false, false, true];
+
+interface Card {
+	title: string;
+	description: string;
+	alt: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	headline?: string;
+	subtext?: string;
+	cards?: Card[];
+}
+
+const {
+	eyebrow = "The science of change",
+	headline = "Where you work\nchanges how you think.",
+	subtext = "It's not romance — it's neuroscience. Environment is one of the strongest predictors of creative output, focus, and recovery. And it's the easiest thing to change.",
+	cards = [
+		{
+			title: "Where focus deepens",
+			description:
+				"Same desk, same view, same thinking — the brain filters familiar surroundings, including the ideas that come from them.",
+			alt: "A person wearing headphones focused on a laptop by a window",
+		},
+		{
+			title: "Where ideas connect",
+			description:
+				"Why the best ideas come on holiday and rarely back at the desk. Novel environments activate the brain's default mode — the source of insight.",
+			alt: "Two colleagues high-fiving in a bright office",
+		},
+		{
+			title: "Where energy returns",
+			description:
+				"Why a week away often beats a month at the desk. Nature and new spaces reset cognitive capacity faster than time off alone.",
+			alt: "A couple collaborating together, one wearing glasses, in a bright warm space",
+		},
+	],
+} = Astro.props;
 ---
 
 <section class="bg-white px-6 py-20 sm:px-10 lg:px-20 lg:py-30">
@@ -38,16 +53,20 @@ const cards = [
 			<p
 				class="bg-[linear-gradient(174deg,#fadec2_1.5%,#d19161_34%,#3d142b_100%)] bg-clip-text font-display text-[11px] tracking-[0.33px] text-transparent uppercase"
 			>
-				The science of change
+				{eyebrow}
 			</p>
 			<p class="max-w-3xl font-display text-4xl leading-tight font-bold tracking-[-1.12px] text-wale-700 sm:text-5xl lg:text-[56px] lg:leading-16">
-				Where you work
-				<br />
-				changes how you think.
+				{
+					headline.split("\n").map((line, index) => (
+						<>
+							{index > 0 && <br />}
+							{line}
+						</>
+					))
+				}
 			</p>
 			<p class="max-w-2xl font-display text-[17px] leading-7 text-[#5f5f5f]">
-				It's not romance — it's neuroscience. Environment is one of the strongest predictors
-				of creative output, focus, and recovery. And it's the easiest thing to change.
+				{subtext}
 			</p>
 		</div>
 
@@ -57,26 +76,26 @@ const cards = [
 				data-track
 			>
 				{
-					cards.map((card) => (
+					cards.map((card, index) => (
 						<div
 							class:list={[
 								"relative isolate h-80 w-[85%] shrink-0 snap-center overflow-hidden rounded-4xl sm:h-96 sm:w-[60%] lg:h-139.5 lg:w-auto lg:shrink",
-								card.wide && "lg:col-span-2 lg:h-116.25",
+								cardWide[index] && "lg:col-span-2 lg:h-116.25",
 							]}
 							data-slide
 						>
 							<Image
-								src={card.image}
+								src={cardImages[index]}
 								alt={card.alt}
 								class="absolute inset-0 -z-20 h-full w-full object-cover"
-								widths={card.wide ? [640, 1024, 1600] : [480, 768, 1100]}
-								sizes={card.wide ? "100vw" : "(min-width: 1024px) 50vw, 85vw"}
+								widths={cardWide[index] ? [640, 1024, 1600] : [480, 768, 1100]}
+								sizes={cardWide[index] ? "100vw" : "(min-width: 1024px) 50vw, 85vw"}
 							/>
 							<div class="absolute inset-0 -z-10 bg-linear-to-t from-black/85 via-black/10 to-transparent" />
 							<div
 								class:list={[
 									"absolute bottom-0 left-0 flex flex-col items-start gap-3 p-8",
-									card.wide && "lg:p-20",
+									cardWide[index] && "lg:p-20",
 								]}
 							>
 								<p class="font-display text-2xl font-medium tracking-[-0.128px] text-white sm:text-[32px]">
@@ -85,7 +104,7 @@ const cards = [
 								<p
 									class:list={[
 										"font-display text-base tracking-[-0.064px] text-white",
-										card.wide ? "max-w-md" : "max-w-sm",
+										cardWide[index] ? "max-w-md" : "max-w-sm",
 									]}
 								>
 									{card.description}

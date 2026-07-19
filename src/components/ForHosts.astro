@@ -3,29 +3,43 @@ import { Image } from "astro:assets";
 import hostsBg from "../assets/images/hosts-bg.jpg";
 import CtaButton from "./CtaButton.astro";
 
+interface Benefit {
+	icon: string;
+	title: string;
+	description: string;
+}
+
 interface Props {
+	eyebrow?: string;
+	headline?: string;
+	paragraph?: string;
+	benefits?: Benefit[];
 	ctaLabel?: string;
 }
 
-const { ctaLabel = "List your property - it's free" } = Astro.props;
-
-const benefits = [
-	{
-		icon: "💸",
-		title: "0% rates",
-		description: "Rates at 0% for the first free months.",
-	},
-	{
-		icon: "🤝",
-		title: "Co-create the platform with us",
-		description: "Your feedback shapes the product.",
-	},
-	{
-		icon: "⭐",
-		title: "Featured listing everyone sees",
-		description: "On our homepage, in our launch press.",
-	},
-];
+const {
+	eyebrow = "For hosts",
+	headline = "Be one of the first\nhosts in Poland.",
+	paragraph = "We're partnering with a small group of founding hosts to shape what HelloWale becomes. Get in early, help us design it, and earn exclusive launch benefits for life.",
+	benefits = [
+		{
+			icon: "💸",
+			title: "0% rates",
+			description: "Rates at 0% for the first free months.",
+		},
+		{
+			icon: "🤝",
+			title: "Co-create the platform with us",
+			description: "Your feedback shapes the product.",
+		},
+		{
+			icon: "⭐",
+			title: "Featured listing everyone sees",
+			description: "On our homepage, in our launch press.",
+		},
+	],
+	ctaLabel = "List your property - it's free",
+} = Astro.props;
 ---
 
 <section class="relative isolate flex min-h-[80vh] items-center overflow-hidden sm:min-h-[85vh] lg:aspect-3024/1654 lg:min-h-0">
@@ -40,17 +54,20 @@ const benefits = [
 	<div class="mx-auto flex w-full max-w-7xl flex-col gap-12 px-6 py-20 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:gap-24 lg:px-6 lg:py-30">
 		<div class="flex w-full flex-col items-start gap-6 rounded-3xl bg-white/85 p-6 backdrop-blur-sm lg:w-130">
 			<p class="font-display text-[11px] tracking-[0.33px] text-wale-700 uppercase">
-				For hosts
+				{eyebrow}
 			</p>
 			<p class="font-display text-4xl leading-tight font-bold tracking-[-0.66px] text-wale-700 sm:text-5xl lg:text-[44px] lg:leading-13.5">
-				Be one of the first
-				<br />
-				hosts in Poland.
+				{
+					headline.split("\n").map((line, index) => (
+						<>
+							{index > 0 && <br />}
+							{line}
+						</>
+					))
+				}
 			</p>
 			<p class="max-w-lg font-display text-[17px] leading-7 text-[#5f5f5f]">
-				We're partnering with a small group of founding hosts to shape what HelloWale
-				becomes. Get in early, help us design it, and earn exclusive launch benefits for
-				life.
+				{paragraph}
 			</p>
 			<CtaButton label={ctaLabel} class="min-w-64" />
 		</div>

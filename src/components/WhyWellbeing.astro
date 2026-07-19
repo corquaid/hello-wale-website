@@ -1,21 +1,41 @@
 ---
-const stats = [
-	{
-		value: "77%",
-		description: "of employees experience burnout at their current job",
-		source: "Deloitte",
-	},
-	{
-		value: "+13%",
-		description: "productivity gain in teams with strong wellbeing programmes",
-		source: "Oxford University",
-	},
-	{
-		value: "3.3×",
-		description: "more likely to feel engaged when given workation flexibility",
-		source: "Gallup",
-	},
-];
+interface Stat {
+	value: string;
+	description: string;
+	source: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	headline?: string;
+	subtext?: string;
+	stats?: Stat[];
+	sourceLabel?: string;
+}
+
+const {
+	eyebrow = "Why wellbeing matters",
+	headline = "The numbers behind better work.",
+	subtext = "Wellbeing makes the difference between teams that ship and teams that burn out.",
+	stats = [
+		{
+			value: "77%",
+			description: "of employees experience burnout at their current job",
+			source: "Deloitte",
+		},
+		{
+			value: "+13%",
+			description: "productivity gain in teams with strong wellbeing programmes",
+			source: "Oxford University",
+		},
+		{
+			value: "3.3×",
+			description: "more likely to feel engaged when given workation flexibility",
+			source: "Gallup",
+		},
+	],
+	sourceLabel = "Source:",
+} = Astro.props;
 ---
 
 <section
@@ -25,13 +45,13 @@ const stats = [
 	<div class="mx-auto flex max-w-6xl flex-col items-center gap-14 text-center">
 		<div class="flex flex-col items-center gap-2">
 			<p class="font-display text-[11px] tracking-[0.33px] text-wale-peach uppercase">
-				Why wellbeing matters
+				{eyebrow}
 			</p>
 			<h2 class="max-w-3xl font-display text-4xl font-bold tracking-[-1.12px] text-white sm:text-5xl lg:text-[56px] lg:leading-16">
-				The numbers behind better work.
+				{headline}
 			</h2>
 			<p class="font-display text-[17px] text-white/65">
-				Wellbeing makes the difference between teams that ship and teams that burn out.
+				{subtext}
 			</p>
 		</div>
 
@@ -54,7 +74,7 @@ const stats = [
 								<div class="flex items-center gap-2">
 									<div class="h-px w-5 bg-white/40" />
 									<p class="font-display text-[11px] tracking-[0.11px] text-white/40">
-										Source: {stat.source}
+										{sourceLabel} {stat.source}
 									</p>
 								</div>
 							</div>
