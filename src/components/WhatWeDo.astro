@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import pillarHosts from "../assets/images/pillar-hosts.jpg";
 import eyebrowIcon from "../assets/images/eyebrow-icon.png";
+import CtaButton from "./CtaButton.astro";
 
 const pillars = [
   {
@@ -85,14 +86,12 @@ const pillars = [
                 >
                   {pillar.body}
                 </p>
-                <span
-                  class:list={[
-                    "block w-full rounded-bl-xl rounded-tl-xl rounded-tr-xl px-6 py-3.5 text-center font-display text-sm font-medium tracking-[0.14px]",
-                    pillar.variant === "photo" ? "bg-wale-peach text-wale-700" : "bg-wale-700 text-white",
-                  ]}
-                >
-                  {pillar.cta}
-                </span>
+                <CtaButton
+                  as="span"
+                  label={pillar.cta}
+                  variant={pillar.variant === "photo" ? "peach" : "primary"}
+                  fullWidth
+                />
               </div>
             </a>
           ))

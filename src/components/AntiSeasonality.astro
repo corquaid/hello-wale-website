@@ -1,4 +1,36 @@
 ---
+import CtaButton from "./CtaButton.astro";
+
+interface Block {
+	title: string;
+	description: string;
+}
+
+interface Cta {
+	label: string;
+	href?: string;
+}
+
+interface Props {
+	eyebrow?: string;
+	blocks?: Block[];
+	cta?: Cta | null;
+}
+
+const {
+	eyebrow = "The problem with tourism",
+	blocks = [
+		{
+			title: "Tourism is seasonal. Work isn't.",
+			description:
+				"Hosts see 80% of bookings in just 4 months. The other 8? Empty calendars. HelloWale fills the gap with companies sending teams on workation year-round.",
+		},
+	],
+	cta = { label: "List your property" },
+} = Astro.props;
+
+const isMultiBlock = blocks.length > 1;
+
 const months = [
 	{ label: "J", height: 24, peak: false },
 	{ label: "F", height: 32, peak: false },
@@ -21,25 +53,32 @@ const months = [
 			<p
 				class="order-1 bg-[linear-gradient(175deg,#fadec2_1.5%,#d19161_34%,#3d142b_100%)] bg-clip-text font-display text-[11px] tracking-[0.33px] text-transparent uppercase lg:order-0"
 			>
-				The problem with tourism
+				{eyebrow}
 			</p>
 
-			<div class="order-3 flex flex-col items-start gap-6 lg:order-0 lg:contents">
-				<p class="font-display text-4xl leading-tight font-bold tracking-[-1.12px] text-[#131313] sm:text-5xl lg:text-[56px] lg:leading-16">
-					Tourism is seasonal.
-					<br />
-					Work isn't.
-				</p>
-				<p class="max-w-lg font-display text-[17px] leading-7 text-[#5f5f5f]">
-					Hosts see 80% of bookings in just 4 months. The other 8? Empty calendars. HelloWale
-					fills the gap with companies sending teams on workation year-round.
-				</p>
-				<a
-					href={`${import.meta.env.BASE_URL}contact`}
-					class="rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 font-display text-sm font-medium tracking-[0.14px] text-white"
-				>
-					List your property
-				</a>
+			<div class="order-3 flex flex-col items-start gap-10 lg:order-0 lg:contents lg:gap-0">
+				<div class="contents lg:flex lg:flex-col lg:gap-12">
+					{
+						blocks.map((block) => (
+							<div class="flex flex-col items-start gap-4">
+								<p
+									class:list={[
+										"font-display leading-tight font-bold tracking-[-0.66px] text-[#131313]",
+										isMultiBlock
+											? "text-3xl sm:text-4xl lg:text-[38px] lg:leading-11"
+											: "text-4xl tracking-[-1.12px] sm:text-5xl lg:text-[56px] lg:leading-16",
+									]}
+								>
+									{block.title}
+								</p>
+								<p class="max-w-lg font-display text-[17px] leading-7 text-[#5f5f5f]">
+									{block.description}
+								</p>
+							</div>
+						))
+					}
+				</div>
+				{cta && <CtaButton label={cta.label} href={cta.href} />}
 			</div>
 		</div>
 

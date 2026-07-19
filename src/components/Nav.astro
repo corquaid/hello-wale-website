@@ -1,6 +1,7 @@
 ---
 import logoLight from "../assets/images/logo-mark-light.svg";
 import logoDark from "../assets/images/logo-mark-dark.svg";
+import CtaButton from "./CtaButton.astro";
 
 interface Props {
 	variant?: "solid" | "transparent";
@@ -11,8 +12,8 @@ const isTransparent = variant === "transparent";
 const base = import.meta.env.BASE_URL;
 
 const leftLinks = [
-	{ href: "#", label: "For Companies" },
-	{ href: "#", label: "For Hosts" },
+	{ href: `${base}companies`, label: "For Companies" },
+	{ href: `${base}hosts`, label: "For Hosts" },
 ];
 
 const rightLinks = [
@@ -25,9 +26,6 @@ const linkClass = isTransparent
 	? "font-display text-[13px] font-medium text-white"
 	: "font-display text-[13px] font-medium text-gray-700 hover:text-wale-700";
 
-const ctaClass = isTransparent
-	? "rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-cream px-6 py-3.5 font-display text-[13px] font-medium tracking-[0.13px] text-wale-700"
-	: "rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 font-display text-[13px] font-medium tracking-[0.13px] text-white hover:bg-wale-800";
 ---
 
 <header
@@ -52,7 +50,13 @@ const ctaClass = isTransparent
 
 		<div class="flex flex-1 items-center justify-end gap-6">
 			{rightLinks.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
-			<a href={`${base}contact`} class={ctaClass}>Partner with us</a>
+			<CtaButton
+				label="Partner with us"
+				href={`${base}contact`}
+				variant={isTransparent ? "cream" : "primary"}
+				size="nav"
+				class={isTransparent ? "" : "hover:bg-wale-800"}
+			/>
 		</div>
 	</div>
 
@@ -132,12 +136,13 @@ const ctaClass = isTransparent
 			}
 		</nav>
 
-		<a
+		<CtaButton
+			label="Partner with us"
 			href={`${base}contact`}
-			class="mt-8 block rounded-bl-xl rounded-tl-xl rounded-tr-xl bg-wale-700 px-6 py-3.5 text-center font-display text-[13px] font-medium tracking-[0.13px] text-white"
-		>
-			Partner with us
-		</a>
+			size="nav"
+			fullWidth
+			class="mt-8"
+		/>
 	</div>
 </div>
 

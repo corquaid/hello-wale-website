@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import usecaseMarketing from "../assets/images/usecase-marketing.jpg";
 import usecaseTechteam from "../assets/images/usecase-techteam.jpg";
 
-const useCases = [
+const defaultUseCases = [
 	{
 		company: "Marketing agency",
 		badge: "25 employees",
@@ -24,6 +24,12 @@ const useCases = [
 		reverse: true,
 	},
 ];
+
+interface Props {
+	useCases?: typeof defaultUseCases;
+}
+
+const { useCases = defaultUseCases } = Astro.props;
 ---
 
 <section class="bg-white px-6 py-20 sm:px-10 lg:px-20 lg:py-30">

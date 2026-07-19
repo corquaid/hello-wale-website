@@ -1,0 +1,54 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ForHosts from "../components/ForHosts.astro";
+import AntiSeasonality from "../components/AntiSeasonality.astro";
+import HowItWorks from "../components/HowItWorks.astro";
+import hostsHeroDoor from "../assets/images/hosts-hero-door.jpg";
+
+const antiSeasonalityBlocks = [
+	{
+		title: "Tourism is seasonal. Work isn't.",
+		description:
+			"Most hosts see 80% of bookings in just 4 months. The rest of the year? Empty calendars. HelloWale fills the gap with companies sending teams on workations year-round.",
+	},
+	{
+		title: "The kind of guests you hope for",
+		description:
+			"They stay a little longer, treat your space with care, and are happy to recommend it to others. The result? More predictable income, fewer turnovers, and better reviews.",
+	},
+	{
+		title: "Why workation is a thing",
+		description:
+			"The best ideas don't always happen in meeting rooms. Workations bring teams together to collaborate, recharge, and reconnect, helping build stronger cultures and happier employees.",
+	},
+];
+---
+
+<Layout
+	title="For Hosts"
+	description="Open your doors to a growing community — become a founding HelloWale host."
+	showNav={false}
+>
+	<Hero
+		beforeText="Open"
+		bubbleText="your doors"
+		afterText="to a growing community"
+		subtext="Host companies and remote professionals combining work and travel, creating new opportunities for your business."
+		photo={hostsHeroDoor}
+		navVariant="transparent"
+		align="left"
+		bubbleWidthClass="w-[5.4em]"
+	/>
+	<ForHosts ctaLabel="Let's Talk" />
+	<section class="bg-white px-6 py-16 text-center sm:py-20">
+		<p class="font-display text-3xl font-bold tracking-[-0.96px] text-wale-700 sm:text-4xl lg:text-5xl">
+			The bigger picture
+		</p>
+	</section>
+	<AntiSeasonality blocks={antiSeasonalityBlocks} cta={null} />
+	<HowItWorks
+		headline="Become a founding partner"
+		subtext="HelloWale is launching later in 2026. Here's how partnership works right now before the platform is open to everyone."
+	/>
+</Layout>
