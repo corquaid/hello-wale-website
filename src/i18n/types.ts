@@ -79,6 +79,7 @@ export interface Dictionary {
 	nav: {
 		forCompanies: string;
 		forHosts: string;
+		forProfessionals: string;
 		story: string;
 		blog: string;
 		faq: string;
@@ -86,6 +87,13 @@ export interface Dictionary {
 	};
 	common: {
 		footerRights: string;
+		footer: {
+			tagline: string;
+			exploreHeading: string;
+			resourcesHeading: string;
+			contactHeading: string;
+			contactLabel: string;
+		};
 		forCompanies: {
 			eyebrow: string;
 			headline: string;

@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import logoLight from "../assets/images/logo-horizontal-secondary.png";
 import { useTranslations, type Locale } from "../i18n/utils";
 
 interface Props {
@@ -7,10 +10,89 @@ interface Props {
 
 const { lang = "en" } = Astro.props;
 const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL;
+
+const exploreLinks = [
+	{ href: getRelativeLocaleUrl(lang, "companies"), label: t.nav.forCompanies },
+	{ href: getRelativeLocaleUrl(lang, "hosts"), label: t.nav.forHosts },
+	{ href: getRelativeLocaleUrl(lang, "professionals"), label: t.nav.forProfessionals },
+];
+
+const resourceLinks = [
+	{ href: "#", label: t.nav.story },
+	{ href: `${base}blog`, label: t.nav.blog },
+	{ href: `${base}faq`, label: t.nav.faq },
+];
 ---
 
-<footer class="border-t border-slate-200 py-8 text-sm text-slate-500">
-	<div class="mx-auto max-w-6xl px-6">
-		<p>&copy; {new Date().getFullYear()} HelloWale. {t.common.footerRights}</p>
+<footer
+	class="px-6 py-16 text-white sm:px-10 lg:px-20 lg:py-20"
+	style="background: linear-gradient(101deg, #914D61 -159.59%, #380121 170.76%);"
+>
+	<div class="mx-auto flex max-w-7xl flex-col gap-12 lg:gap-16">
+		<div class="flex flex-col gap-12 lg:flex-row lg:justify-between">
+			<div class="flex max-w-sm flex-col items-start gap-4 text-left">
+				<a href={getRelativeLocaleUrl(lang, "")} class="flex w-fit items-center">
+					<Image
+						src={logoLight}
+						alt="hellowale"
+						widths={[300, 600]}
+						class="aspect-3781/876 h-8 w-auto max-w-none"
+					/>
+				</a>
+				<p class="font-display text-sm leading-6 text-white/70">
+					{t.common.footer.tagline}
+				</p>
+			</div>
+
+			<div class="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-3 lg:gap-16">
+				<div class="flex flex-col gap-4">
+					<p class="font-display text-[11px] font-semibold tracking-[0.22px] text-white/45 uppercase">
+						{t.common.footer.exploreHeading}
+					</p>
+					<nav class="flex flex-col gap-3">
+						{
+							exploreLinks.map((link) => (
+								<a href={link.href} class="font-display text-sm text-white/80 hover:text-white">
+									{link.label}
+								</a>
+							))
+						}
+					</nav>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<p class="font-display text-[11px] font-semibold tracking-[0.22px] text-white/45 uppercase">
+						{t.common.footer.resourcesHeading}
+					</p>
+					<nav class="flex flex-col gap-3">
+						{
+							resourceLinks.map((link) => (
+								<a href={link.href} class="font-display text-sm text-white/80 hover:text-white">
+									{link.label}
+								</a>
+							))
+						}
+					</nav>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<p class="font-display text-[11px] font-semibold tracking-[0.22px] text-white/45 uppercase">
+						{t.common.footer.contactHeading}
+					</p>
+					<nav class="flex flex-col gap-3">
+						<a href={`${base}contact`} class="font-display text-sm text-white/80 hover:text-white">
+							{t.common.footer.contactLabel}
+						</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex flex-col gap-4 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+			<p class="font-display text-xs text-white/50">
+				&copy; {new Date().getFullYear()} HelloWale. {t.common.footerRights}
+			</p>
+		</div>
 	</div>
 </footer>

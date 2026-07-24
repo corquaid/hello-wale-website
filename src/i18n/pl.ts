@@ -48,6 +48,7 @@ export const pl: Dictionary = {
 	nav: {
 		forCompanies: "Dla firm",
 		forHosts: "Dla gospodarzy",
+		forProfessionals: "Dla profesjonalistów",
 		story: "Historia HelloWale",
 		blog: "Blog",
 		faq: "FAQ",
@@ -55,6 +56,14 @@ export const pl: Dictionary = {
 	},
 	common: {
 		footerRights: "Wszelkie prawa zastrzeżone.",
+		footer: {
+			tagline:
+				"Platforma dla pobytów łączących pracę zdalną z podróżą — stworzona dla firm, gospodarzy i profesjonalistów zdalnych.",
+			exploreHeading: "Poznaj",
+			resourcesHeading: "Zasoby",
+			contactHeading: "Skontaktuj się",
+			contactLabel: "Skontaktuj się z nami",
+		},
 		forCompanies: {
 			eyebrow: "Dla firm",
 			headline: "Benefit wellbeingowy,\nz którego Twój zespół naprawdę skorzysta.",

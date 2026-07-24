@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import { getRelativeLocaleUrl } from "astro:i18n";
-import logoLight from "../assets/images/logo-mark-light.svg";
-import logoDark from "../assets/images/logo-mark-dark.svg";
+import logoSecondary from "../assets/images/logo-horizontal-secondary.png";
+import logoPrimary from "../assets/images/logo-horizontal-primary.png";
+import logoDark from "../assets/images/logo-horizontal-dark.png";
 import CtaButton from "./CtaButton.astro";
 import {
 	useTranslations,
@@ -13,12 +15,22 @@ import {
 
 interface Props {
 	variant?: "solid" | "transparent";
+	logoVariant?: "secondary" | "primary";
+	textVariant?: "light" | "dark";
 	lang?: Locale;
 	currentPath?: string;
 }
 
-const { variant = "solid", lang = "en", currentPath = "" } = Astro.props;
+const {
+	variant = "solid",
+	logoVariant = "secondary",
+	textVariant = "light",
+	lang = "en",
+	currentPath = "",
+} = Astro.props;
 const isTransparent = variant === "transparent";
+const isDarkText = isTransparent && textVariant === "dark";
+const logoLight = logoVariant === "primary" ? logoPrimary : logoSecondary;
 const base = import.meta.env.BASE_URL;
 const t = useTranslations(lang);
 
@@ -35,9 +47,11 @@ const rightLinks = [
 	{ href: `${base}faq`, label: t.nav.faq },
 ];
 
-const linkClass = isTransparent
-	? "font-display text-[13px] font-medium text-white"
-	: "font-display text-[13px] font-medium text-gray-700 hover:text-wale-700";
+const linkClass = isDarkText
+	? "font-display text-[13px] font-medium text-wale-700 hover:text-wale-800"
+	: isTransparent
+		? "font-display text-[13px] font-medium text-white"
+		: "font-display text-[13px] font-medium text-gray-700 hover:text-wale-700";
 
 // Falls back to each locale's homepage when the current page has no
 // translation yet, so the switcher never links to a 404.
@@ -45,9 +59,11 @@ const isCurrentPathTranslated = translatedRoutes.includes(currentPath);
 const getLocaleHref = (loc: Locale) =>
 	getRelativeLocaleUrl(loc, isCurrentPathTranslated ? currentPath : "");
 
-const langToggleClass = isTransparent
-	? "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-	: "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-wale-700";
+const langToggleClass = isDarkText
+	? "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-wale-700/80 transition-colors hover:bg-black/5 hover:text-wale-800"
+	: isTransparent
+		? "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+		: "flex items-center gap-1.5 rounded-full px-3 py-2 font-display text-[13px] font-medium text-gray-500 transition-colors hover:bg-gray-50 hover:text-wale-700";
 ---
 
 <header
@@ -63,10 +79,11 @@ const langToggleClass = isTransparent
 		</nav>
 
 		<a href={homeHref} class="flex shrink-0 items-center">
-			<img
-				src={isTransparent ? logoLight.src : logoDark.src}
+			<Image
+				src={isTransparent ? logoLight : logoDark}
 				alt="hellowale"
-				class="aspect-298/34 h-8.5 w-auto max-w-none"
+				widths={[300, 600]}
+				class="aspect-3781/876 h-8.5 w-auto max-w-none"
 			/>
 		</a>
 
@@ -144,17 +161,18 @@ const langToggleClass = isTransparent
 				stroke="currentColor"
 				stroke-width="2"
 				stroke-linecap="round"
-				class={isTransparent ? "h-6 w-6 text-white" : "h-6 w-6 text-gray-700"}
+				class={isDarkText ? "h-6 w-6 text-wale-700" : isTransparent ? "h-6 w-6 text-white" : "h-6 w-6 text-gray-700"}
 			>
 				<path d="M4 6h16M4 12h16M4 18h16" />
 			</svg>
 		</button>
 
 		<a href={homeHref} class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-			<img
-				src={isTransparent ? logoLight.src : logoDark.src}
+			<Image
+				src={isTransparent ? logoLight : logoDark}
 				alt="hellowale"
-				class="aspect-298/34 h-6 w-auto max-w-none"
+				widths={[220, 440]}
+				class="aspect-3781/876 h-6 w-auto max-w-none"
 			/>
 		</a>
 	</div>
@@ -175,7 +193,7 @@ const langToggleClass = isTransparent
 		class="pointer-events-auto absolute inset-y-0 left-0 w-96 max-w-[90vw] -translate-x-full bg-white p-6 shadow-xl transition-transform duration-300"
 	>
 		<div class="relative flex items-center justify-center">
-			<img src={logoDark.src} alt="hellowale" class="aspect-298/34 h-6 w-auto max-w-none" />
+			<Image src={logoDark} alt="hellowale" widths={[220, 440]} class="aspect-3781/876 h-6 w-auto max-w-none" />
 			<button type="button" data-nav-close aria-label="Close menu" class="absolute right-0">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"

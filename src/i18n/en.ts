@@ -45,6 +45,7 @@ export const en: Dictionary = {
 	nav: {
 		forCompanies: "For Companies",
 		forHosts: "For Hosts",
+		forProfessionals: "For Professionals",
 		story: "HelloWale Story",
 		blog: "Blog",
 		faq: "FAQ",
@@ -52,6 +53,13 @@ export const en: Dictionary = {
 	},
 	common: {
 		footerRights: "All rights reserved.",
+		footer: {
+			tagline: "The platform for remote work stays — built for companies, hosts, and remote professionals.",
+			exploreHeading: "Explore",
+			resourcesHeading: "Resources",
+			contactHeading: "Get in touch",
+			contactLabel: "Contact us",
+		},
 		forCompanies: {
 			eyebrow: "For Companies",
 			headline: "The wellbeing benefit\nyour team will actually use.",

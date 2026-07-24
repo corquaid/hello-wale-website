@@ -23,6 +23,8 @@ interface Props {
 	showPhoto?: boolean;
 	photo?: ImageMetadata;
 	navVariant?: "solid" | "transparent";
+	navLogoVariant?: "secondary" | "primary";
+	navTextVariant?: "light" | "dark";
 	bubbleWidthClass?: string;
 	align?: "center" | "left";
 	lang?: Locale;
@@ -42,6 +44,8 @@ const {
 	showPhoto = true,
 	photo = heroBg,
 	navVariant = "transparent",
+	navLogoVariant = "secondary",
+	navTextVariant = "light",
 	bubbleWidthClass = "w-[3.5em]",
 	align = "center",
 	lang = "en",
@@ -71,7 +75,13 @@ const {
 	}
 
 	<div class="relative w-full">
-		<Nav variant={navVariant} lang={lang} currentPath={currentPath} />
+		<Nav
+			variant={navVariant}
+			logoVariant={navLogoVariant}
+			textVariant={navTextVariant}
+			lang={lang}
+			currentPath={currentPath}
+		/>
 	</div>
 
 	<div
